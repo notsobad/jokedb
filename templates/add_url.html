@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block body %}
+<style>
+.add-url-form{margin:30px 0;}
+.add-url-form .control-label{padding-top:10px;}
+.add-url-form label{font-size:20px;}
+.add-url-form input[type="text"], .add-url-form textarea{font-size:20px; width:320px; height:35px;}
+.add-url-form textarea{height:110px;}
+.add-url-form .control-group{border-radius: 4px;border: 1px solid gainsboro;vertical-align: middle;color: #858585;margin-bottom: 4px;padding:20px;}
+.add-url-form .control-group:hover{background-color: #FCF8E1;border:1px solid #EAD3A1; }
+.btn-huge{width: 445px; font-size: 24px; height: 22px; line-height: 22px; padding: 18px 14px;}
+ .color_gray, .color-gray {color: #666;}
+</style>
+<div class="container">
+<header class="subhead">
+	<h1>分享网址</h1>
+</header>
+<div class="row">
+<form class="form-horizontal add-url-form" method="POST" action="/add/">
+<fieldset>
+	<div class="control-group">
+            <label class="control-label" for="">网址</label>
+            <div class="controls">
+              <label class="">
+				<input type="text" name="url" />
+				网页地址
+              </label>
+            </div>
+	  </div>
+
+	<div class="control-group">
+            <label class="control-label" for="">标题</label>
+            <div class="controls">
+              <label class="color-gray">
+				<input type="text" name="title" />
+				帖子标题
+              </label>
+            </div>
+	  </div>
+	<div class="control-group">
+            <label class="control-label" for="">描述</label>
+            <div class="controls">
+              <label class="">
+				<textarea class="input-xlarge" name="desc" id="textarea" rows="3"></textarea>
+				简短描述
+              </label>
+            </div>
+	  </div>
+	<input type="submit" value="写完了，提交！" name="submit" class="btn btn-primary btn-large btn-huge" />
+</fieldset>
+</form>
+</div>
+</div>
+{% endblock %}
