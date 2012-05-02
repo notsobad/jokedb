@@ -1,49 +1,46 @@
-<html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-<link type="text/css" rel="stylesheet" href="/media/css/index.css"> 
-<title>搞定 - gaoding.me | 一切皆可搞定！</title> 
-<style> 
-.login{position:absolute; bottom:10px;}
-.about{overflow: hidden; padding-top: 10px;}
-.about ul{margin:10px 30px;color:#666}
-.about li{list-style:circle inside;}
-.about h2{margin:10px 0; font:16px/150% Arial,Helvetica,sans-serif; color: #006600;}
-#footer{ border-top: 1px dashed #DDDDDD;color: #999999; margin:50px 0 20px 0; }
-	.sina-weibo{background:url('/media/i/sina-weibo-16x16.png') no-repeat; padding-left:20px;}
-</style> 
-<script> 
-</script> 
-</head><body> 
-<div id="header"><div class="wrapper"><div class="top-nav"><div class="comimg"></div> 
-</div> 
-</div> 
-</div> 
-<div id="player"> 
-	<div class="wrapper"> 
-		<div style="" class="about"> 
-			<h2>了解gaoding.me</h2>
-
-			<ul> 
-				<li>GaoDing是一个GTD网站</li>
-				<li>可以让你方便的管理代办事项</li>
-				<li>可以将代办事项共享给其他人</li>
-				<li>无需注册帐号，可以使用其它平台的帐号登录，更多开放平台支持增加中</li>
-				<li>方便的导出功能</li>
-			</ul> 
-		</div> 
-		<div class="login">
-
-			<a href="javascript:void(0)" title="使用新浪微博帐号登录" onclick="location.href='/login?act=auth';return false;"><img src="/media/i/sina-weibo-48.png"/></a>
-		</div>
-	</div> 
-</div> 
-<div id="footer">
-	<div class="wrapper">
-	Powered By <a href="http://weibo.com/knownsec" class="sina-weibo" title="Follow me">知道创宇</a>
-	Contributor: <a href="http://weibo.com/n0ts0bad" title="Follow me!" class="sina-weibo" target="_blank">notsobad</a>, <a href="http://weibo.com/hysia" class="sina-weibo" target="_blank" title="Follow me!">hysia</a>
-
+{% extends "base.html" %}
+{% block body %}
+<style>
+span.fade{color:#ccc;opacity: 1;}
+</style>
+<script>
+$(function(){
+	var $el = $('.main .cell');
+	for(var i=0; i<=10; i++){
+		//$('.main').append($el.clone());
+	}
+});
+</script>
+<div class="row">
+	<div class="span9">
+	<div class="box main">
+	{% for n in news %}
+	<div class="cell item">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tbody><tr>
+            <td width="48" valign="top" align="center"><a href="/member/yyfearth"><img src="http://cdn.v2ex.com/avatar/b875/1799/4791_normal.png?m=1335102231" border="0" align="default" auto=""></a></td>
+            <td width="10"></td>
+            
+            <td width="auto" valign="middle"><span class="item_title"><a href="{{ url_for("jump") }}?url={{ n.url }}" target="_blank">{% if n.title %}{{ n.title }}{% else %}{{ n.url }}{% endif %}</a></span>
+            <div class="sep5"></div>
+            <span class="small fade">
+				<strong><a href="/member/yyfearth">{{ n.author }}</a>
+				</strong> &nbsp;•&nbsp; {{ n.len }} 个字符 &nbsp;•&nbsp; {{ n.hit }} 次点击 &nbsp;•&nbsp; <a href="/news/{{ n._id }}.html"><span class="label label-info">{{ n.comment }}个评论</span></a> &nbsp;•&nbsp;{{ n.create_time|pretty_date }}
+			</span>
+            </td>
+            <td width="50" align="right" valign="middle">
+                <a href="/t/34042#reply4" class="count_livid">{{ n.hit }}</a>
+            </td>
+        </tr>
+    </tbody></table>	
 	</div>
-</div>
-</body>
-</html>
-
+	{% endfor %}
+	</div>
+	</div>
+	<div class="span3">
+		<div class="box">
+			test
+		</div>
+	</div>
+</div><!--EOF row-->
+{% endblock %}

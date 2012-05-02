@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<style>
+span.fade{color:#ccc;opacity: 1;}
+</style>
+<div class="row">
+	<div class="span9">
+		<div class="box main">
+		<h1>{% if n.title %}{{ n.title }}{% else %}{{ n.url }}{% endif %}</h1>
+            <span class="small fade">
+				<strong><a href="/member/yyfearth">{{ n.author }}</a>
+				</strong> &nbsp;•&nbsp; {{ n.len }} 个字符 &nbsp;•&nbsp; {{ n.hit }} 次点击 &nbsp;•&nbsp; {{ n.comment }}个评论 &nbsp;•&nbsp;{{ n.create_time|pretty_date }}
+			</span>
+		<p>{{ n.desc }}</o>
+		</div>
+	</div>
+</div>
+{% endblock %}

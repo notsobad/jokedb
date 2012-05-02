@@ -7,8 +7,11 @@
 	
 	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 	<link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
+	<link href="/static/css/shared.css" rel="stylesheet">
+	<script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
 <style>
+body{padding-top:60px;}
+footer{margin-top: 45px; padding: 35px 0 36px; border-top: 1px solid #E5E5E5;}
 </style>
       <title>HackNews</title>
       <script>
@@ -16,7 +19,39 @@
       </script>
     </head>
     <body>
+<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">MyHackerNews</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active">
+                <a href="/">首页</a>
+              </li>
+              <li class="active">
+                <a href="{{ url_for("add_url") }}">投递</a>
+              </li>
+              <li class="active">
+                <a href="{{ url_for("about") }}">关于</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="container">
 {% block body %}
 {% endblock %}
+	<footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+		<p>By <a href="http://weibo.com/n0ts0bad">@notsobad</a></p>
+	  </footer>
+</div>
     </body>
 </html>
