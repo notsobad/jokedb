@@ -6,6 +6,7 @@ import flask
 import jinja2
 import datetime
 import urlparse
+import random
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Table, Column, Integer, String
 from model import Joke
@@ -30,8 +31,23 @@ def joke(pk):
 	_id = ObjectId(pk)
 	j = Joke()
 	items = j.coll.find({'_id':{'$gte':_id}}).sort('_id',1).limit(2)
-	return render_template("joke.html", item=items[0], next_pk=items[1]['_id'])
+	item = items[0]
+	try:
+		next_pk = items[1]['_id']
+	except:
+		next_pk = item['_id']
+	return render_template("joke.html", item=item, next_pk=next_pk)
 
+@app.route('/r')
+def random_page():
+	r = random.random()
+	print r
+	j = Joke()
+	item = j.coll.find_one({'r':{'$gte':r}})
+	if not item:
+		item = j.coll.find_one({'r':{'$lte':r}})
+			
+	return flask.redirect( url_for('joke', pk=str(item['_id'])) )
 
 @app.route('/')
 def index():
