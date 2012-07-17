@@ -54,7 +54,7 @@ def index():
 	return flask.redirect('/page/1')
 
 @app.route("/page/<int:page>")
-def page(page):
+def pages(page):
 	per_page = 5
 	j = Joke()
 	count = j.count
