@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block body %}
+<script src="/static/js/main.js"></script>
+<script>
+var pk = '{{ item._id }}';
+$(function(){
+	$.cookie('pk', pk, {expires:365, path:'/'});
+});
+</script>
+<style>
+span.fade{color:#ccc;opacity: 1;}
+.news-desc{margin:30px 5px;}
+.main textarea{width:100%;}
+</style>
+<div class="row">
+	<div class="span9">
+		<div class="shadow main cont">
+		<p class="">{{ item.cont }}</p>
+		</div>
+		<div class="vote">
+			<a class="downvote btn btn-inverse" href="{{ url_for('joke', pk=next_pk) }}">
+				<i class="icon-thumbs-down icon-white"></i>
+				滥！下一个
+			</a>
+			<a class="upvote btn btn-success" href="{{ url_for('joke', pk=next_pk) }}">
+				<i class="icon-thumbs-up icon-white"></i>
+				赞！下一个
+			</a>
+		</div>
+	</div>
+	<div class="span3">
+		<div class="shadow cont about-this">
+		<p>
+			WTF?
+			</p>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

@@ -1,17 +1,27 @@
 {% extends "base.html" %}
 {% block body %}
 <style>
+.main{ padding:20px; }
 span.fade{color:#ccc;opacity: 1;}
+.news-desc{margin:30px 5px;}
+.main textarea{width:100%;}
 </style>
 <div class="row">
 	<div class="span9">
 		<div class="box main">
-		<h1>{% if n.title %}{{ n.title }}{% else %}{{ n.url }}{% endif %}</h1>
+		<h1><a href="{{ n.url }}" target="_blank">{% if n.title %}{{ n.title }}{% else %}{{ n.url }}{% endif %}</a><span class="small fade">[{{ n.domain }}]</span></h1>
             <span class="small fade">
 				<strong><a href="/member/yyfearth">{{ n.author }}</a>
 				</strong> &nbsp;•&nbsp; {{ n.len }} 个字符 &nbsp;•&nbsp; {{ n.hit }} 次点击 &nbsp;•&nbsp; {{ n.comment }}个评论 &nbsp;•&nbsp;{{ n.create_time|pretty_date }}
 			</span>
-		<p>{{ n.desc }}</o>
+		<p class="news-desc">{{ n.desc }}</p>
+		<div class="control-group">
+            <div class="controls">
+              <label class="">
+				<textarea class="input-xlarge" name="desc" id="textarea" rows="6" placeholder="发表评论"></textarea>
+              </label>
+            </div>
+		  </div>
 		</div>
 	</div>
 </div>

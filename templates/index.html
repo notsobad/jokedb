@@ -1,46 +1,40 @@
 {% extends "base.html" %}
+{% import "utils.html" as utils %}
 {% block body %}
-<style>
-span.fade{color:#ccc;opacity: 1;}
-</style>
 <script>
 $(function(){
-	var $el = $('.main .cell');
-	for(var i=0; i<=10; i++){
-		//$('.main').append($el.clone());
+	var pk = $.cookie('pk');
+	if(pk){
+		var html = _.template( $('#tpl-last-visit').html(), {pk:pk} );
+		$('.header').html(html);
 	}
 });
 </script>
+<style>
+span.fade{color:#ccc;opacity: 1;}
+</style>
+<div class="header"></div>
 <div class="row">
 	<div class="span9">
-	<div class="box main">
-	{% for n in news %}
-	<div class="cell item">
-	<table cellpadding="0" cellspacing="0" border="0" width="100%">
-        <tbody><tr>
-            <td width="48" valign="top" align="center"><a href="/member/yyfearth"><img src="http://cdn.v2ex.com/avatar/b875/1799/4791_normal.png?m=1335102231" border="0" align="default" auto=""></a></td>
-            <td width="10"></td>
-            
-            <td width="auto" valign="middle"><span class="item_title"><a href="{{ url_for("jump") }}?url={{ n.url }}" target="_blank">{% if n.title %}{{ n.title }}{% else %}{{ n.url }}{% endif %}</a></span>
-            <div class="sep5"></div>
-            <span class="small fade">
-				<strong><a href="/member/yyfearth">{{ n.author }}</a>
-				</strong> &nbsp;•&nbsp; {{ n.len }} 个字符 &nbsp;•&nbsp; {{ n.hit }} 次点击 &nbsp;•&nbsp; <a href="/news/{{ n._id }}.html"><span class="label label-info">{{ n.comment }}个评论</span></a> &nbsp;•&nbsp;{{ n.create_time|pretty_date }}
-			</span>
-            </td>
-            <td width="50" align="right" valign="middle">
-                <a href="/t/34042#reply4" class="count_livid">{{ n.hit }}</a>
-            </td>
-        </tr>
-    </tbody></table>	
-	</div>
-	{% endfor %}
-	</div>
+		<div class="box main">
+		{% for item in items %}
+			<div class="well">
+				<p>{{ item.cont }}</p>
+				<i><a href="{{ url_for('joke', pk=item._id) }}">{{ item._id }}</a></i>
+			</div>
+		{% endfor %}
+		</div>
 	</div>
 	<div class="span3">
 		<div class="box">
 			test
 		</div>
 	</div>
+{{ utils.render_pagination(pagination) }}
 </div><!--EOF row-->
+<script type="text/tpl" id="tpl-last-visit">
+<div class="alert alert-info">
+你上次访问的页面为<a href="/j/<%= pk %>">/j/<%= pk %></a>, 你可以继续访问.
+</div>
+</script>
 {% endblock %}
