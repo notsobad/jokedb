@@ -14,24 +14,16 @@ $(function(){
 span.fade{color:#ccc;opacity: 1;}
 </style>
 <div class="header"></div>
-<div class="row">
-	<div class="span9">
-		<div class="box main">
-		{% for item in items %}
-			<div class="well">
-				<p>{{ item.cont }}</p>
-				<i><a href="{{ url_for('joke', pk=item._id) }}">{{ item._id }}</a></i>
-			</div>
-		{% endfor %}
-		</div>
-	</div>
-	<div class="span3">
-		<div class="box">
-			test
-		</div>
-	</div>
-{{ utils.render_pagination(pagination) }}
-</div><!--EOF row-->
+<div class="hero-unit">
+  <h1>爱说笑</h1>
+  <p>互联网上最大的中文笑话数据库</p>
+  <p>
+    <a class="btn btn-primary btn-large" href="{{ url_for('random_page') }}">
+      随便看看
+    </a>
+  </p>
+</div>
+
 <script type="text/tpl" id="tpl-last-visit">
 <div class="alert alert-info">
 你上次访问的页面为<a href="/j/<%= pk %>">/j/<%= pk %></a>, 你可以继续访问.

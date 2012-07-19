@@ -15,7 +15,13 @@ span.fade{color:#ccc;opacity: 1;}
 <div class="row">
 	<div class="span9">
 		<div class="shadow main cont">
-		<p class="">{{ item.cont }}</p>
+			<p class="">{{ item.cont }}</p>
+			<dl>
+				<dt>HASH</dt>
+				<dd>{{ item.md5 }}</dd>
+				<dt>URL</dt>
+				<dd><a href="{{ url_for('joke', pk=item._id) }}">{{ url_for('joke', pk=item._id) }}</a></dd>
+			</dl>
 		</div>
 		<div class="vote">
 			<a class="downvote btn btn-inverse" href="{{ url_for('joke', pk=next_pk) }}">
@@ -27,14 +33,25 @@ span.fade{color:#ccc;opacity: 1;}
 				赞！下一个
 			</a>
 		</div>
+
 	</div>
 	<div class="span3">
-		<div class="shadow cont about-this">
-		<p>
-			WTF?
-			</p>
+		<div class="well about-this">
 		</div>
 	</div>
 
 </div>
+
+<!-- JiaThis Button BEGIN -->
+<div id="jiathis_style_32x32">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_kaixin001"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1335111608108130" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 {% endblock %}

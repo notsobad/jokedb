@@ -51,7 +51,7 @@ def random_page():
 
 @app.route('/')
 def index():
-	return flask.redirect('/page/1')
+	return render_template("index.html")
 
 @app.route("/page/<int:page>")
 def pages(page):
@@ -60,7 +60,7 @@ def pages(page):
 	count = j.count
 	items = j.coll.find().sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
 	pagination = Pagination(page, 20, count)
-	return render_template("index.html", items=items, pagination=pagination)
+	return render_template("jokes.html", items=items, pagination=pagination)
 
 @app.route("/about.html")
 def about():

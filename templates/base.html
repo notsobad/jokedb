@@ -7,54 +7,41 @@
 	
 	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
 	<link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="/static/css/shared.css" rel="stylesheet">
+	<!--<link href="/static/css/shared.css" rel="stylesheet">-->
 	<link href="/static/css/ishuoxiao.css" rel="stylesheet">
 	<script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="/static/js/underscore.js"></script>
 <style>
-body{padding-top:60px;}
 footer{margin-top: 45px; padding: 35px 0 36px; border-top: 1px solid #E5E5E5;}
 </style>
-      <title>iShuoXiao</title>
+      <title>爱说笑 - 互联网上最全的中文段子库</title>
       <script>
 $(function(){
-$('.navbar .nav a').each(function(){ $(this).attr('href') == location.pathname && $(this).parent('li').addClass('active'); })
+	$('.navbar .nav a').each(function(){ $(this).attr('href') == location.pathname && $(this).parent('li').addClass('active'); })
 });
       </script>
     </head>
     <body>
-<div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">爱说笑</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="">
-                <a href="/">首页</a>
-              </li>
-              <li class="">
-                <a href="/page/1">所有</a>
-              </li>
-              <li class="">
-                <a href="{{ url_for('random_page') }}">随机</a>
-              </li>
-              <li class="">
-                <a href="{{ url_for("about") }}">关于</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
 <div class="container">
+<header>
+	<h1>爱说笑</h1>
+	 <ul class="nav">
+		  <li class="">
+			<a href="/">首页</a>
+		  </li>
+		  <li class="">
+			<a href="/page/1">所有</a>
+		  </li>
+		  <li class="">
+			<a href="{{ url_for('random_page') }}">随机</a>
+		  </li>
+		  <li class="">
+			<a href="{{ url_for("about") }}">关于</a>
+		  </li>
+	</ul>
+</header>
 {% block body %}
 {% endblock %}
 	<footer class="footer">
