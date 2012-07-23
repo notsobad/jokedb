@@ -1,0 +1,7 @@
+<div class="well">
+<h3>搜索</h3>
+<form method="get" action="{{ url_for("search", q="") }}" onsubmit="location.href='/search/'+ this.q.value;return false; ">
+	<input type="text" name="q" />
+	<input type="submit" value="提交" />
+</form>
+</div>

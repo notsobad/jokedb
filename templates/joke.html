@@ -15,20 +15,30 @@ span.fade{color:#ccc;opacity: 1;}
 <div class="row">
 	<div class="span9">
 		<div class="shadow main cont">
-			<p class="">{{ item.cont }}</p>
+			<p class="">{{ item.cont|replace("\n", "<br/>")|safe }}</p>
 			<dl>
+				<dt>SOURCE</dt>
+				<dd>{{ item.source }}</dd>
 				<dt>HASH</dt>
 				<dd>{{ item.md5 }}</dd>
 				<dt>URL</dt>
 				<dd><a href="{{ url_for('joke', pk=item._id) }}">{{ url_for('joke', pk=item._id) }}</a></dd>
 			</dl>
+			{% if session.is_admin %}
+			<p><a href="{{ url_for("edit", pk=item._id) }}">编辑</a> <a href="{{ url_for("delete", pk=item._id) }}">删除</a> </p>
+			{% endif %}
 		</div>
 		<div class="vote">
-			<a class="downvote btn btn-inverse" href="{{ url_for('joke', pk=next_pk) }}">
+			<a class="downvote btn btn-inverse btn-large" href="{{ url_for('joke', pk=next_pk) }}">
 				<i class="icon-thumbs-down icon-white"></i>
 				滥！下一个
 			</a>
-			<a class="upvote btn btn-success" href="{{ url_for('joke', pk=next_pk) }}">
+
+			<a class="btn btn-success btn-large" href="{{ url_for('random_page') }}">
+				<i class="icon-random icon-white"></i>
+			  随便看看
+			</a>
+			<a class="upvote btn btn-warning btn-large" href="{{ url_for('joke', pk=next_pk) }}">
 				<i class="icon-thumbs-up icon-white"></i>
 				赞！下一个
 			</a>
@@ -36,8 +46,8 @@ span.fade{color:#ccc;opacity: 1;}
 
 	</div>
 	<div class="span3">
-		<div class="well about-this">
-		</div>
+		{% include "about_box.html" %}
+		{% include "search_box.html" %}
 	</div>
 
 </div>

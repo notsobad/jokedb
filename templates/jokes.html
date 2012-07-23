@@ -26,9 +26,8 @@ span.fade{color:#ccc;opacity: 1;}
 		</div>
 	</div>
 	<div class="span3">
-		<div class="box">
-			test
-		</div>
+		{% include "about_box.html" %}
+		{% include "search_box.html" %}
 	</div>
 </div><!--EOF row-->
 {{ utils.render_pagination(pagination) }}
