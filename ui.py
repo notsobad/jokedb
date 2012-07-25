@@ -156,7 +156,8 @@ def login():
 
 @app.route("/logout", methods=['POST', 'GET'])
 def logout():
-	session.pop('username')
+	session.pop('username','')
+	session.pop('is_admin', '')
 	return redirect(url_for("index"))
 
 

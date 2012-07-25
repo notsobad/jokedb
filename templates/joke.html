@@ -14,36 +14,45 @@ span.fade{color:#ccc;opacity: 1;}
 </style>
 <div class="row">
 	<div class="span9">
-		<div class="shadow main cont">
+		<!--<div class="shadow main cont">-->
+		<article class="well main cont">
 			<p class="">{{ item.cont|replace("\n", "<br/>")|safe }}</p>
-			<dl>
-				<dt>SOURCE</dt>
-				<dd>{{ item.source }}</dd>
-				<dt>HASH</dt>
-				<dd>{{ item.md5 }}</dd>
-				<dt>URL</dt>
-				<dd><a href="{{ url_for('joke', pk=item._id) }}">{{ url_for('joke', pk=item._id) }}</a></dd>
-			</dl>
-			{% if session.is_admin %}
+						{% if session.is_admin %}
 			<p><a href="{{ url_for("edit", pk=item._id) }}">编辑</a> <a href="{{ url_for("delete", pk=item._id) }}">删除</a> </p>
 			{% endif %}
-		</div>
+		</article>
+	
 		<div class="vote">
 			<a class="downvote btn btn-inverse btn-large" href="{{ url_for('joke', pk=next_pk) }}">
 				<i class="icon-thumbs-down icon-white"></i>
-				滥！下一个
+				<span>滥！下一个</span>
 			</a>
 
 			<a class="btn btn-success btn-large" href="{{ url_for('random_page') }}">
 				<i class="icon-random icon-white"></i>
-			  随便看看
+			  <span>随便看看</span>
 			</a>
 			<a class="upvote btn btn-warning btn-large" href="{{ url_for('joke', pk=next_pk) }}">
 				<i class="icon-thumbs-up icon-white"></i>
-				赞！下一个
+				<span>赞！下一个</span>
 			</a>
 		</div>
 
+	
+		<table class="table table-bordered joke-info">
+				<tr>
+					<td>来源</td>
+					<td>{{ item.source }}</td>
+				</tr>
+				<tr>
+					<td>HASH</td>
+					<td>{{ item.md5 }}</td>
+				</tr>
+				<tr>
+					<td>永久网址</td>
+					<td><a href="{{ url_for('joke', pk=item._id) }}">{{ url_for('joke', pk=item._id) }}</a></td>
+				</tr>
+		</table>
 	</div>
 	<div class="span3">
 		{% include "about_box.html" %}
@@ -58,7 +67,6 @@ span.fade{color:#ccc;opacity: 1;}
 	<a class="jiathis_button_tsina"></a>
 	<a class="jiathis_button_tqq"></a>
 	<a class="jiathis_button_renren"></a>
-	<a class="jiathis_button_kaixin001"></a>
 	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	<a class="jiathis_counter_style"></a>
 </div>
