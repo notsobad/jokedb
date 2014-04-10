@@ -1,13 +1,12 @@
 import pymongo
-import pymongo.objectid
-
+from bson.objectid import ObjectId
 class Joke:
 	def __init__(self):
 		self.db = pymongo.Connection().jokedb
 		self.coll = self.db.jokes
 	
 	def get(self, pk):
-		_id = pymongo.objectid.ObjectId(pk)
+		_id = ObjectId(pk)
 		joke = self.coll.find_one({'_id':_id})
 		return joke
 	

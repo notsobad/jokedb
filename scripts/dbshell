@@ -1,3 +1,0 @@
-#!/bin/sh
-d=$(dirname $(readlink -f $0))
-mongo todolist $d/myshell.js  --shell 

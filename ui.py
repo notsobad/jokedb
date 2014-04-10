@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #coding=utf-8
-from flask import Flask,request, render_template,redirect,url_for,session,flash
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask import Flask, request, render_template, redirect, url_for, session, flash
 import flask
 import jinja2
 import datetime
@@ -9,8 +8,6 @@ import urlparse
 import random
 import hashlib
 import re
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy import Table, Column, Integer, String
 from model import Joke
 from pagination import Pagination
 from bson.objectid import ObjectId
@@ -23,6 +20,7 @@ def url_for_other_page(page):
 	args['page'] = page
 	return url_for(request.endpoint, **args)
 app.jinja_env.globals['url_for_other_page'] = url_for_other_page
+
 
 @app.route('/jump/')
 def jump():
@@ -44,7 +42,6 @@ def joke(pk):
 @app.route('/r')
 def random_page():
 	r = random.random()
-	print r
 	j = Joke()
 	item = j.coll.find_one({'r':{'$gte':r}})
 	if not item:
@@ -163,4 +160,4 @@ def logout():
 
 if __name__ == "__main__":
 	app.debug = True
-	app.run(host='0.0.0.0')
+	app.run(host='0.0.0.0', port=8080)
