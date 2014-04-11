@@ -9,7 +9,7 @@ $(function(){
 <div class="row">
 	<div class="span9">
 		<div class="joke-add">
-			<form action="/add" method="post" class="" style="display: block;">
+			<form action="{{ reverse_url("add") }}" method="post" class="" style="display: block;">
 			<p class="text">
 				<span class="chars-left" style="display: block; ">分享一个段子吧</span>
 				<textarea name="cont" cols="50" rows="2"></textarea>
@@ -29,5 +29,4 @@ $(function(){
 	</div>
 
 </div>
-
 {% end %}

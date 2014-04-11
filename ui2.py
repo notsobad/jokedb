@@ -16,8 +16,6 @@ import tornado
 import tornado.httpclient
 from tornado.options import define, options
 
-static_path = 'static'
-
 class MainHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.render('index.html')
@@ -26,7 +24,6 @@ class JumpHandler(tornado.web.RequestHandler):
 	def get(self):
 		url = self.get_argument('url', None)
 		self.redirect(url)
-
 
 class AddHandler(tornado.web.RequestHandler):
 	def get(self):
@@ -52,14 +49,14 @@ class AddHandler(tornado.web.RequestHandler):
 		else:
 			_id = j.coll.save(item)
 			
-		self.redirect(reverse_url("joke", str(_id)))
+		self.redirect(self.reverse_url("joke", str(_id)))
 
 class DeleteHandler(tornado.web.RequestHandler):
 	def get(self, pk):
 		_id = ObjectId(pk)
 		j = Joke()
 		j.coll.remove({'_id':_id})
-		self.redirect(self.reverse_url("random_page"))
+		self.redirect(self.reverse_url("main"))
 		
 class EditHandler(tornado.web.RequestHandler):
 	def get(self, pk):
@@ -82,10 +79,9 @@ class EditHandler(tornado.web.RequestHandler):
 		item['cont'] = cont
 		item['md5'] = unicode(md5)
 		item['r'] = random.random() 
-		#j.coll.update({'_id': _id}, {'$set':item}, upsert=True)
 		j.coll.save(item)
-		flash(u"修改成功！")
-		return redirect(url_for("joke", pk=pk))
+		#flash(u"修改成功！")
+		self.redirect(self.reverse_url("joke", pk))
 			
 
 class AboutHandler(tornado.web.RequestHandler):
@@ -107,7 +103,6 @@ class PagesHandler(tornado.web.RequestHandler):
 
 class JokeHandler(tornado.web.RequestHandler):
 	def get(self, pk):
-		print pk
 		_id = ObjectId(pk)
 		j = Joke()
 		items = j.coll.find({'_id':{'$gte':_id}}).sort('_id',1).limit(2)
@@ -162,7 +157,7 @@ app = tornado.web.Application([
 	tornado.web.url(r'/page/(\d+)/', PagesHandler, name="page"),
 	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
 	tornado.web.url(r'/search/([^/]+)/', SearchHandler, name="search"),
-	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': static_path}),
+	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
 ], **settings)
 
 if __name__ == '__main__':
