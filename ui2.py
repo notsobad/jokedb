@@ -30,11 +30,32 @@ class JumpHandler(tornado.web.RequestHandler):
 
 class AddHandler(tornado.web.RequestHandler):
 	def get(self):
-		url = self.get_argument('url', None)
-		self.redirect(url)
+		self.render("add.html")
+
+	def post(self):
+		item = {}
+		cont = self.get_argument('cont', '').strip().encode('utf-8')
+		m = hashlib.md5()
+		m.update(cont)
+		md5 = m.hexdigest()
+		if not cont:
+			pass
+		item['cont'] = cont
+		item['md5'] = md5
+		item['source'] = 'ishuoxiao'
+		item['r'] = random.random() 
+		
+		j = Joke()
+		_item = j.coll.find_one({'md5':md5})
+		if _item:
+			_id = _item['_id']
+		else:
+			_id = j.coll.save(item)
+			
+		self.redirect(reverse_url("joke", str(_id)))
 
 class DeleteHandler(tornado.web.RequestHandler):
-	def get(self):
+	def get(self, pk):
 		_id = ObjectId(pk)
 		j = Joke()
 		j.coll.remove({'_id':_id})
@@ -69,11 +90,11 @@ class EditHandler(tornado.web.RequestHandler):
 
 class AboutHandler(tornado.web.RequestHandler):
 	def get(self):
-		url = self.get_argument('url', None)
-		self.redirect(url)
+		self.render("about.html")
 
 class PagesHandler(tornado.web.RequestHandler):
 	def get(self, page):
+		print page
 		page = int(page)
 		per_page = 5
 		j = Joke()
@@ -133,14 +154,14 @@ settings = {
 app = tornado.web.Application([
 	tornado.web.url(r'/', MainHandler, name="main"),
 	tornado.web.url(r'/jump/', JumpHandler, name="jump"),
-	tornado.web.url(r'/add/', JumpHandler, name="add"),
-	tornado.web.url(r'/edit/([^/]+)/?', EditHandler, name="edit"),
-	tornado.web.url(r'/delete/([^/]+)/?', DeleteHandler, name="delete"),
-	tornado.web.url(r'/about/', JumpHandler, name="about"),
+	tornado.web.url(r'/add/', AddHandler, name="add"),
+	tornado.web.url(r'/edit/([^/]+)/', EditHandler, name="edit"),
+	tornado.web.url(r'/delete/([^/]+)/', DeleteHandler, name="delete"),
+	tornado.web.url(r'/about/', AboutHandler, name="about"),
 	tornado.web.url(r'/random/', RandomHandler, name="random_page"),
-	tornado.web.url(r'/page/(\d*)/?', PagesHandler, name="page"),
-	tornado.web.url(r'/joke/([^/]+)/?', JokeHandler, name="joke"),
-	tornado.web.url(r'/search/([^/]+)/?', SearchHandler, name="search"),
+	tornado.web.url(r'/page/(\d+)/', PagesHandler, name="page"),
+	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
+	tornado.web.url(r'/search/([^/]+)/', SearchHandler, name="search"),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': static_path}),
 ], **settings)
 
