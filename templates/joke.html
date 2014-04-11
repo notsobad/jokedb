@@ -2,7 +2,7 @@
 {% block body %}
 <script src="/static/js/main.js"></script>
 <script>
-var pk = '{{ item._id }}';
+var pk = '{{ item["_id"] }}';
 $(function(){
 	$.cookie('pk', pk, {expires:365, path:'/'});
 });
@@ -16,23 +16,21 @@ span.fade{color:#ccc;opacity: 1;}
 	<div class="span9">
 		<!--<div class="shadow main cont">-->
 		<article class="well main cont">
-			<p class="">{{ item.cont|replace("\n", "<br/>")|safe }}</p>
-						{% if session.is_admin %}
-			<p><a href="{{ url_for("edit", pk=item._id) }}">编辑</a> <a href="{{ url_for("delete", pk=item._id) }}">删除</a> </p>
-			{% endif %}
+			<p class="">{{ item['cont'] }}</p>
+			<p><a href="{{ reverse_url("edit", item['_id']) }}">编辑</a> <a href="{{ reverse_url("delete", item['_id']) }}">删除</a> </p>
 		</article>
 	
 		<div class="vote">
-			<a class="downvote btn btn-inverse btn-large" href="{{ url_for('joke', pk=next_pk) }}">
+			<a class="downvote btn btn-inverse btn-large" href="{{ reverse_url('joke', next_pk) }}">
 				<i class="icon-thumbs-down icon-white"></i>
 				<span>滥！下一个</span>
 			</a>
 
-			<a class="btn btn-success btn-large" href="{{ url_for('random_page') }}">
+			<a class="btn btn-success btn-large" href="{{ reverse_url('random_page') }}">
 				<i class="icon-random icon-white"></i>
 			  <span>随便看看</span>
 			</a>
-			<a class="upvote btn btn-warning btn-large" href="{{ url_for('joke', pk=next_pk) }}">
+			<a class="upvote btn btn-warning btn-large" href="{{ reverse_url('joke', next_pk) }}">
 				<i class="icon-thumbs-up icon-white"></i>
 				<span>赞！下一个</span>
 			</a>
@@ -42,15 +40,15 @@ span.fade{color:#ccc;opacity: 1;}
 		<table class="table table-bordered joke-info">
 				<tr>
 					<td>来源</td>
-					<td>{{ item.source }}</td>
+					<td>{{ item['source'] }}</td>
 				</tr>
 				<tr>
 					<td>HASH</td>
-					<td>{{ item.md5 }}</td>
+					<td>{{ item['md5'] }}</td>
 				</tr>
 				<tr>
 					<td>永久网址</td>
-					<td><a href="{{ url_for('joke', pk=item._id) }}">{{ url_for('joke', pk=item._id) }}</a></td>
+					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
 				</tr>
 		</table>
 	</div>
@@ -58,7 +56,6 @@ span.fade{color:#ccc;opacity: 1;}
 		{% include "about_box.html" %}
 		{% include "search_box.html" %}
 	</div>
-
 </div>
 
 <!-- JiaThis Button BEGIN -->
@@ -72,4 +69,4 @@ span.fade{color:#ccc;opacity: 1;}
 </div>
 <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1335111608108130" charset="utf-8"></script>
 <!-- JiaThis Button END -->
-{% endblock %}
+{% end %}

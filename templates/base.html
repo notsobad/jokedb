@@ -29,22 +29,10 @@ $(function(){
     </head>
     <body>
 <div class="container">
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-		<div class="alert alert-info">
-			  {{ message }}
-		</div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
 
 <header>
 	<div>
 		<h1>爱说笑</h1>
-		{% if session.is_admin %}
-		<div class="pull-right">{{ session.username }}<a href="{{ url_for("logout") }}">[logout]</a></div>
-		{% endif %}
 	</div>
 	 <ul class="nav">
 		  <li class="">
@@ -54,18 +42,18 @@ $(function(){
 			<a href="/page/1">所有</a>
 		  </li>
 		  <li class="">
-			<a href="{{ url_for('random_page') }}">随机</a>
+			<a href="{{ reverse_url('random_page') }}">随机</a>
 		  </li>
 		  <li class="">
-			<a href="{{ url_for("add") }}">添加</a>
+			<a href="{{ reverse_url("add") }}">添加</a>
 		  </li>
 		  <li class="">
-			<a href="{{ url_for("about") }}">关于</a>
+			<a href="{{ reverse_url("about") }}">关于</a>
 		  </li>
 	</ul>
 </header>
 {% block body %}
-{% endblock %}
+{% end %}
 	<footer class="footer">
         <p class="pull-right"><a href="#">Back to top</a></p>
 		<p>By <a href="http://weibo.com/n0ts0bad">@notsobad</a></p>
