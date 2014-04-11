@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "utils.html" as utils %}
 {% block body %}
 <script>
 $(function(){
@@ -19,10 +18,10 @@ span.fade{color:#ccc;opacity: 1;}
 		<div class="box main">
 		{% for item in items %}
 			<div class="well">
-				<p>{{ item.cont }}</p>
-				<i><a href="{{ url_for('joke', pk=item._id) }}">{{ item._id }}</a></i>
+				<p>{{ item['cont'] }}</p>
+				<i><a href="{{ reverse_url('joke', item['_id']) }}">{{ item['_id'] }}</a></i>
 			</div>
-		{% endfor %}
+		{% end %}
 		</div>
 	</div>
 	<div class="span3">
@@ -30,10 +29,10 @@ span.fade{color:#ccc;opacity: 1;}
 		{% include "search_box.html" %}
 	</div>
 </div><!--EOF row-->
-{{ utils.render_pagination(pagination) }}
+{% include "utils.html" %}
 <script type="text/tpl" id="tpl-last-visit">
 <div class="alert alert-info">
 你上次访问的页面为<a href="/j/<%= pk %>"><span class="label">/j/<%= pk %></span></a>, 你可以继续访问.
 </div>
 </script>
-{% endblock %}
+{% end %}

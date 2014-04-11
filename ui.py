@@ -1,8 +1,7 @@
 #!/usr/bin/python
 #coding=utf-8
-from flask import Flask, request, render_template, redirect, url_for, session, flash
-import flask
-import jinja2
+import sys
+import os
 import datetime
 import urlparse
 import random
@@ -11,100 +10,28 @@ import re
 from model import Joke
 from pagination import Pagination
 from bson.objectid import ObjectId
+import tornado.ioloop
+import tornado.web
+import tornado
+import tornado.httpclient
+from tornado.options import define, options
 
-app = Flask(__name__)
-app.secret_key = '\x9a\xf8pJp\xbf\xbdBY\xb0\xfd\xa68\xac\x809j\x0c\xd6\x89\xc5,\xcf\xc2'
+class MainHandler(tornado.web.RequestHandler):
+	def get(self):
+		self.render('index.html')
 
-def url_for_other_page(page):
-	args = request.view_args.copy()
-	args['page'] = page
-	return url_for(request.endpoint, **args)
-app.jinja_env.globals['url_for_other_page'] = url_for_other_page
+class JumpHandler(tornado.web.RequestHandler):
+	def get(self):
+		url = self.get_argument('url', None)
+		self.redirect(url)
 
+class AddHandler(tornado.web.RequestHandler):
+	def get(self):
+		self.render("add.html")
 
-@app.route('/jump/')
-def jump():
-	url = request.args.get('url')
-	return flask.redirect(url)
-
-@app.route('/j/<pk>')
-def joke(pk):
-	_id = ObjectId(pk)
-	j = Joke()
-	items = j.coll.find({'_id':{'$gte':_id}}).sort('_id',1).limit(2)
-	item = items[0]
-	try:
-		next_pk = items[1]['_id']
-	except:
-		next_pk = item['_id']
-	return render_template("joke.html", item=item, next_pk=next_pk)
-
-@app.route('/r')
-def random_page():
-	r = random.random()
-	j = Joke()
-	item = j.coll.find_one({'r':{'$gte':r}})
-	if not item:
-		item = j.coll.find_one({'r':{'$lte':r}})
-			
-	return flask.redirect( url_for('joke', pk=str(item['_id'])) )
-
-@app.route('/')
-def index():
-	return render_template("index.html")
-
-@app.route("/page/<int:page>")
-def pages(page):
-	per_page = 5
-	j = Joke()
-	count = j.count
-	items = j.coll.find().sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
-	pagination = Pagination(page, 20, count)
-	return render_template("jokes.html", items=items, pagination=pagination)
-
-@app.route("/about.html")
-def about():
-	return render_template("about.html")
-
-@app.route("/edit/<pk>", methods=['POST', 'GET'])
-def edit(pk):
-	_id = ObjectId(pk)
-	j = Joke()
-	item = j.coll.find_one({'_id':_id})
-
-	if request.method == 'POST':
-		cont = request.form.get('cont', '').strip().encode('utf-8')
-		m = hashlib.md5()
-		m.update(cont)
-		md5 = m.hexdigest()
-		if not cont:
-			pass
-		item['cont'] = cont
-		item['md5'] = unicode(md5)
-		item['r'] = random.random() 
-		#j.coll.update({'_id': _id}, {'$set':item}, upsert=True)
-		j.coll.save(item)
-		flash(u"修改成功！")
-		return redirect(url_for("joke", pk=pk))
-		
-	else:
-		return render_template("edit.html", item=item)
-
-
-@app.route("/delete/<pk>", methods=['POST', 'GET'])
-def delete(pk):
-	_id = ObjectId(pk)
-	j = Joke()
-	j.coll.remove({'_id':_id})
-	flash(u"删除成功!")
-	return redirect(url_for("random_page"))
-	
-
-@app.route("/add", methods=['POST', 'GET'])
-def add():
-	if request.method == 'POST':
+	def post(self):
 		item = {}
-		cont = request.form.get('cont', '').strip().encode('utf-8')
+		cont = self.get_argument('cont', '').strip().encode('utf-8')
 		m = hashlib.md5()
 		m.update(cont)
 		md5 = m.hexdigest()
@@ -115,7 +42,6 @@ def add():
 		item['source'] = 'ishuoxiao'
 		item['r'] = random.random() 
 		
-
 		j = Joke()
 		_item = j.coll.find_one({'md5':md5})
 		if _item:
@@ -123,41 +49,115 @@ def add():
 		else:
 			_id = j.coll.save(item)
 			
-		return redirect(url_for("joke", pk=str(_id)))
+		self.redirect(self.reverse_url("joke", str(_id)))
 
-	return render_template("add.html")
+class DeleteHandler(tornado.web.RequestHandler):
+	def get(self, pk):
+		_id = ObjectId(pk)
+		j = Joke()
+		j.coll.remove({'_id':_id})
+		self.redirect(self.reverse_url("main"))
+		
+class EditHandler(tornado.web.RequestHandler):
+	def get(self, pk):
+		_id = ObjectId(pk)
+		j = Joke()
+		item = j.coll.find_one({'_id':_id})
+		self.render("edit.html", item=item)
 
-@app.route("/search/<q>", methods=['POST', 'GET'])
-@app.route("/search/<q>/<int:page>", methods=['POST', 'GET'])
-def search(q, page=1):
-	q = re.escape(q.strip())
-	RE_Q = re.compile(q)
-	per_page = 20
-	j = Joke()
-	docs = j.coll.find({'cont': RE_Q})
-	count = docs.count()
-	items = docs.sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
-	pagination = Pagination(page, 20, count)
-	return render_template("jokes.html", items=items, pagination=pagination)
+	def post(self, pk):
+		_id = ObjectId(pk)
+		j = Joke()
+		item = j.coll.find_one({'_id':_id})
+
+		cont = self.get_argument('cont', '').strip().encode('utf-8')
+		m = hashlib.md5()
+		m.update(cont)
+		md5 = m.hexdigest()
+		if not cont:
+			pass
+		item['cont'] = cont
+		item['md5'] = unicode(md5)
+		item['r'] = random.random() 
+		j.coll.save(item)
+		#flash(u"修改成功！")
+		self.redirect(self.reverse_url("joke", pk))
+			
+
+class AboutHandler(tornado.web.RequestHandler):
+	def get(self):
+		self.render("about.html")
+
+class PagesHandler(tornado.web.RequestHandler):
+	def get(self, page):
+		page = int(page)
+		per_page = 5
+		j = Joke()
+		count = j.count
+		items = j.coll.find().sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
+		pagination = Pagination(page, 20, count)
+		self.render("jokes.html", items=items, pagination=pagination)
 
 
-@app.route("/fml", methods=['POST', 'GET'])
-def login():
-	if request.method == 'POST':
-		pwd = request.form.get('pwd', '')
-		if pwd == 'notsobad':
-			session['is_admin'] = True 
-			session['username'] = 'admin'
-			return redirect(url_for('pages', page=1))
-	return render_template("login.html")
+class JokeHandler(tornado.web.RequestHandler):
+	def get(self, pk):
+		_id = ObjectId(pk)
+		j = Joke()
+		items = j.coll.find({'_id':{'$gte':_id}}).sort('_id',1).limit(2)
+		item = items[0]
+		try:
+			next_pk = items[1]['_id']
+		except:
+			next_pk = item['_id']
+		self.render("joke.html", item=item, next_pk=next_pk)
 
-@app.route("/logout", methods=['POST', 'GET'])
-def logout():
-	session.pop('username','')
-	session.pop('is_admin', '')
-	return redirect(url_for("index"))
+class SearchHandler(tornado.web.RequestHandler):
+	def get(self, q, page=1):
+		q = re.escape(q.strip())
+		RE_Q = re.compile(q)
+		per_page = 20
+		j = Joke()
+		docs = j.coll.find({'cont': RE_Q})
+		count = docs.count()
+		items = docs.sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
+		pagination = Pagination(page, 20, count)
+		self.render("jokes.html", items=items, pagination=pagination)
 
 
-if __name__ == "__main__":
-	app.debug = True
-	app.run(host='0.0.0.0', port=8080)
+class RandomHandler(tornado.web.RequestHandler):
+	def get(self):
+		r = random.random()
+		j = Joke()
+		item = j.coll.find_one({'r':{'$gte':r}})
+		if not item:
+			item = j.coll.find_one({'r':{'$lte':r}})
+				
+		self.redirect( self.reverse_url('joke', str(item['_id'])) )
+
+
+
+define("port", default=9527, help="port to listen")
+define("debug", default=False, help="enable debug?")
+tornado.options.parse_command_line()
+settings = {
+	'template_path' : os.path.join(os.path.dirname(__file__), 'templates'),
+	'debug' : options.debug
+}
+
+app = tornado.web.Application([
+	tornado.web.url(r'/', MainHandler, name="main"),
+	tornado.web.url(r'/jump/', JumpHandler, name="jump"),
+	tornado.web.url(r'/add/', AddHandler, name="add"),
+	tornado.web.url(r'/edit/([^/]+)/', EditHandler, name="edit"),
+	tornado.web.url(r'/delete/([^/]+)/', DeleteHandler, name="delete"),
+	tornado.web.url(r'/about/', AboutHandler, name="about"),
+	tornado.web.url(r'/random/', RandomHandler, name="random_page"),
+	tornado.web.url(r'/page/(\d+)/', PagesHandler, name="page"),
+	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
+	tornado.web.url(r'/search/([^/]+)/', SearchHandler, name="search"),
+	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
+], **settings)
+
+if __name__ == '__main__':
+	app.listen(options.port)
+	tornado.ioloop.IOLoop.instance().start()
