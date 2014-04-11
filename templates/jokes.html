@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "utils.html" as utils %}
 {% block body %}
 <script>
 $(function(){
@@ -30,6 +29,7 @@ span.fade{color:#ccc;opacity: 1;}
 		{% include "search_box.html" %}
 	</div>
 </div><!--EOF row-->
+{% include "utils.html" %}
 <script type="text/tpl" id="tpl-last-visit">
 <div class="alert alert-info">
 你上次访问的页面为<a href="/j/<%= pk %>"><span class="label">/j/<%= pk %></span></a>, 你可以继续访问.
