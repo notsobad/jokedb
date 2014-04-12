@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "utils.html" as utils %}
 {% block body %}
 <script>
 $(function(){
@@ -27,7 +26,7 @@ span.fade{color:#ccc;opacity: 1;}
 
 <script type="text/tpl" id="tpl-last-visit">
 <div class="alert alert-info">
-你上次访问的页面为<a href="/j/<%= pk %>">/j/<%= pk %></a>, 你可以继续访问.
+你上次访问的页面为<a href="/joke/<%= pk %>/">/joke/<%= pk %>/</a>, 你可以继续访问.
 </div>
 </script>
 {% end %}

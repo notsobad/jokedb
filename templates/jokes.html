@@ -1,14 +1,5 @@
 {% extends "base.html" %}
 {% block body %}
-<script>
-$(function(){
-	var pk = $.cookie('pk');
-	if(pk){
-		var html = _.template( $('#tpl-last-visit').html(), {pk:pk} );
-		$('.header').html(html);
-	}
-});
-</script>
 <style>
 span.fade{color:#ccc;opacity: 1;}
 </style>
@@ -30,9 +21,4 @@ span.fade{color:#ccc;opacity: 1;}
 	</div>
 </div><!--EOF row-->
 {% include "utils.html" %}
-<script type="text/tpl" id="tpl-last-visit">
-<div class="alert alert-info">
-你上次访问的页面为<a href="/j/<%= pk %>"><span class="label">/j/<%= pk %></span></a>, 你可以继续访问.
-</div>
-</script>
 {% end %}
