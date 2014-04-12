@@ -20,22 +20,18 @@ span.fade{color:#ccc;opacity: 1;}
 		</article>
 	
 		<div class="vote">
-			<a class="downvote btn btn-inverse btn-large" href="{{ reverse_url('joke', next_pk) }}">
-				<i class="icon-thumbs-down icon-white"></i>
-				<span>滥！下一个</span>
+			<a class="downvote btn btn-danger btn-large" href="{{ reverse_url('joke', next_pk) }}">
+				<span class="glyphicon glyphicon-thumbs-down"></span>  
+				滥！下一个
 			</a>
-
 			<a class="btn btn-success btn-large" href="{{ reverse_url('random_page') }}">
-				<i class="icon-random icon-white"></i>
-			  <span>随便看看</span>
+			  <span class="glyphicon glyphicon-random"></span>  随便看看
 			</a>
 			<a class="upvote btn btn-warning btn-large" href="{{ reverse_url('joke', next_pk) }}">
-				<i class="icon-thumbs-up icon-white"></i>
-				<span>赞！下一个</span>
+				<span class="glyphicon glyphicon-thumbs-up"></span>  
+				赞！下一个
 			</a>
 		</div>
-
-	
 		<table class="table table-bordered joke-info">
 				<tr>
 					<td>来源</td>
@@ -52,7 +48,7 @@ span.fade{color:#ccc;opacity: 1;}
 		</table>
 	</div>
 	<div class="span3">
-		{% include "about_box.html" %}
+		{% comment include "about_box.html" %}
 		{% include "search_box.html" %}
 	</div>
 </div>
