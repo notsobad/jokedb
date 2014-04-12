@@ -6,14 +6,8 @@ $(function(){
 	$.cookie('pk', pk, {expires:365, path:'/'});
 });
 </script>
-<style>
-span.fade{color:#ccc;opacity: 1;}
-.news-desc{margin:30px 5px;}
-.main textarea{width:100%;}
-</style>
 <div class="row">
-	<div class="span9">
-		<!--<div class="shadow main cont">-->
+	<div class="col-md-7">
 		<article class="well main cont">
 			<p class="">{{ item['cont'] }}</p>
 			<p><a href="{{ reverse_url("edit", item['_id']) }}">编辑</a> <a href="{{ reverse_url("delete", item['_id']) }}">删除</a> </p>
@@ -32,7 +26,10 @@ span.fade{color:#ccc;opacity: 1;}
 				赞！下一个
 			</a>
 		</div>
-		<table class="table table-bordered joke-info">
+
+	</div>
+	<div class="col-md-5">
+		<table class="table table-striped joke-info">
 				<tr>
 					<td>来源</td>
 					<td>{{ item['source'] }}</td>
@@ -46,22 +43,9 @@ span.fade{color:#ccc;opacity: 1;}
 					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
 				</tr>
 		</table>
-	</div>
-	<div class="span3">
-		{% comment include "about_box.html" %}
-		{% include "search_box.html" %}
+		{% comment include "widget/about_box.html" %}
+		{% include "widget/search_box.html" %}
 	</div>
 </div>
-
-<!-- JiaThis Button BEGIN -->
-<div id="jiathis_style_32x32">
-	<a class="jiathis_button_qzone"></a>
-	<a class="jiathis_button_tsina"></a>
-	<a class="jiathis_button_tqq"></a>
-	<a class="jiathis_button_renren"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1335111608108130" charset="utf-8"></script>
-<!-- JiaThis Button END -->
+{% include "widget/jiathis.html" %}
 {% end %}

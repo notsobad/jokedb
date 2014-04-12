@@ -5,7 +5,7 @@ span.fade{color:#ccc;opacity: 1;}
 </style>
 <div class="header"></div>
 <div class="row">
-	<div class="span9">
+	<div class="col-md-7">
 		<div class="box main">
 		{% for item in items %}
 			<div class="well">
@@ -15,10 +15,10 @@ span.fade{color:#ccc;opacity: 1;}
 		{% end %}
 		</div>
 	</div>
-	<div class="span3">
-		{% include "about_box.html" %}
-		{% include "search_box.html" %}
+	<div class="col-md-5">
+		{% comment include "widget/about_box.html" %}
+		{% include "widget/search_box.html" %}
 	</div>
 </div><!--EOF row-->
-{% include "utils.html" %}
+{% include "widget/utils.html" %}
 {% end %}

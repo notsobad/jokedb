@@ -30,7 +30,7 @@ a.btn:link, a.btn:visited, a.btn:active {color:white;}
 .nav .active a      { border-bottom: 3px solid #004B6B; }
 
 
-.joke-add textarea{font-family:"Hoefler Text",Cambria,Utopia,"Liberation Serif","Nimbus Roman No9 L",Times,"Times New Roman","宋体","Hiragino Sans GB","WenQuanYi Micro     Hei",sans-serif;font-size:30px;width:100%; height:450px;line-height:50px; -moz-box-sizing:border-box; -webkit-box-sizing: border-box; box-sizing:border-box; padding:20px; }
+.joke-add textarea{font-family:"Hoefler Text",Cambria,Utopia,"Liberation Serif","Nimbus Roman No9 L",Times,"Times New Roman","宋体","Hiragino Sans GB","WenQuanYi Micro     Hei",sans-serif;font-size:24px;width:100%; height:300px;line-height:32px; -moz-box-sizing:border-box; -webkit-box-sizing: border-box; box-sizing:border-box; padding:20px; }
 
 .search-area form input[name="q"] { width:100%; }
 

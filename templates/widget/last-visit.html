@@ -1,0 +1,14 @@
+<script type="text/tpl" id="tpl-last-visit">
+<div class="alert alert-info">
+你上次访问的页面为<a href="/joke/<%= pk %>/">/joke/<%= pk %>/</a>, 你可以继续访问.
+</div>
+</script>
+<script>
+$(function(){
+	var pk = $.cookie('pk');
+	if(pk){
+		var html = _.template( $('#tpl-last-visit').html(), {pk:pk} );
+		$('.last-visit').html(html);
+	}
+});
+</script>

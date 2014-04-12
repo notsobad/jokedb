@@ -7,20 +7,19 @@ $(function(){
 <style>
 </style>
 <div class="row">
-	<div class="span9">
+	<div class="col-md-7">
 		<div class="joke-add">
 			<form action="{{ reverse_url("edit", item['_id']) }}" method="post" class="" style="display: block;">
 			<p class="text">
-				<span class="chars-left" style="display: block; ">分享一个段子吧</span>
 				<textarea name="cont" cols="50" rows="2">{{ item['cont'] }}</textarea>
 			  </p>
 			<p class="version">
-				  <input class="btn btn-success" type="submit" value="Share this">
+				  <input class="btn btn-success" type="submit" value="Update">
 			</p>
 		  </form>
 		</div>
 	</div>
-	<div class="span3">
+	<div class="col-md-5">
 		<div class="well about-this">
 			<h3>这是什么？</h3>
 		  <p>致力于收集互联网上最大的中文笑话数据库</p>
