@@ -1,7 +1,7 @@
-<div class="well search-area">
-<h3>搜索</h3>
-<form method="get" action="{{ reverse_url("search", "") }}" onsubmit="location.href='/search/'+ this.q.value + '/';return false; ">
-	<input type="text" name="q" />
+<div class="search-area well">
+<form method="get" action="{{ reverse_url("search", "") }}" onsubmit="location.href='/search/'+ this.q.value + '/';return false; " role="form" class="form-inline">
+	<label for="q">搜索</label>
+	<input id="q" type="text" name="q" />
 	<input type="submit" value="提交" />
 </form>
 </div>

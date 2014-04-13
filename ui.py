@@ -134,7 +134,22 @@ class RandomHandler(tornado.web.RequestHandler):
 				
 		self.redirect( self.reverse_url('joke', str(item['_id'])) )
 
-
+class VoteHandler(tornado.web.RequestHandler):
+	def post(self):
+		'''
+		pk=4ff9bb18fc5d007006dbfc8d&act=up
+		'''
+		pk = self.get_argument('pk')
+		act = self.get_argument('act')
+		_id = ObjectId(pk)
+		j = Joke()
+		item = j.coll.find_one({'_id':_id})
+		if act == 'up':
+			item['up'] += 1
+		else:
+			item['down'] += 1
+		j.coll.save(item)
+		self.write({'status':'ok'})	
 
 define("port", default=9527, help="port to listen")
 define("debug", default=False, help="enable debug?")

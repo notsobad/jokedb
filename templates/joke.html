@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% autoescape None %}
+
 {% block body %}
 <script>
 var pk = '{{ item["_id"] }}';
@@ -9,7 +11,7 @@ $(function(){
 <div class="row">
 	<div class="col-md-7">
 		<article class="well main cont">
-			<p class="">{{ item['cont'] }}</p>
+			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
 			<p><a href="{{ reverse_url("edit", item['_id']) }}">编辑</a> <a href="{{ reverse_url("delete", item['_id']) }}">删除</a> </p>
 		</article>
 	
@@ -18,10 +20,12 @@ $(function(){
 				<span class="glyphicon glyphicon-thumbs-down"></span>  
 				滥！下一个
 			</a>
+			<!--
 			<a class="btn btn-success btn-large" href="{{ reverse_url('random_page') }}">
 			  <span class="glyphicon glyphicon-random"></span>  随便看看
 			</a>
-			<a class="upvote btn btn-warning btn-large" href="{{ reverse_url('joke', next_pk) }}">
+			-->
+			<a class="upvote btn btn-success btn-large" href="{{ reverse_url('joke', next_pk) }}">
 				<span class="glyphicon glyphicon-thumbs-up"></span>  
 				赞！下一个
 			</a>
@@ -47,5 +51,5 @@ $(function(){
 		{% include "widget/search_box.html" %}
 	</div>
 </div>
-{% include "widget/jiathis.html" %}
+{% comment include "widget/jiathis.html" %}
 {% end %}
