@@ -1,5 +1,6 @@
 import pymongo
 from bson.objectid import ObjectId
+
 class Joke:
 	def __init__(self):
 		self.db = pymongo.Connection().jokedb

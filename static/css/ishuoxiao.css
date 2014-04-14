@@ -1,7 +1,7 @@
 body { background-color:#ece5d8; }
 body > .container{background-color:white;}
 .cont {min-height:320px;}
-.cont p{font-size:16px; line-height:160%;}
+.cont p{font-size:16px; line-height:200%;}
 .joke-info{background-color:white;margin:10px 0;background-color:#EDF5F8;}
 .shadow {
 -o-box-shadow: 0px 0px 10px #444;
@@ -14,7 +14,7 @@ box-shadow: 0px 0px 10px #444;
 .about-this p{padding:10px;}
 .vote{text-align:center;}
 .vote a{cursor:pointer; margin:10px 10px;}
-a.btn:link, a.btn:visited, a.btn:active {color:white;}
+.vote a.btn:link, .vote a.btn:visited, .vote a.btn:active {color:white;}
 .well{background-image:none;background-color:white;}
 .pagination{background-color:white;}
 .hero-unit p{line-height:50px;}

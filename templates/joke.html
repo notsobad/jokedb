@@ -4,9 +4,24 @@
 {% block body %}
 <script>
 var pk = '{{ item["_id"] }}';
+var api_vote = '{{ reverse_url("api-vote") }}';
 $(function(){
 	$.cookie('pk', pk, {expires:365, path:'/'});
+
+	$('.vote a').click(function(){
+		if($(this).hasClass('disabled')){
+			return;
+		}
+		var act = $(this).hasClass('upvote') ? 'up' : 'down';
+		console.log(act);
+		$('.vote a').addClass('disabled');
+
+		$.post(api_vote, {'act':act, 'pk':pk}, function(){
+			location.reload();
+		});
+	});
 });
+
 </script>
 <div class="row">
 	<div class="col-md-7">
@@ -16,18 +31,26 @@ $(function(){
 		</article>
 	
 		<div class="vote">
-			<a class="downvote btn btn-danger btn-large" href="{{ reverse_url('joke', next_pk) }}">
+			<a class="downvote btn btn-danger btn-sm">
 				<span class="glyphicon glyphicon-thumbs-down"></span>  
-				滥！下一个
+				{{ item.get('down', 0) }}
 			</a>
-			<!--
-			<a class="btn btn-success btn-large" href="{{ reverse_url('random_page') }}">
+			<a class="upvote btn btn-success btn-sm">
+				<span class="glyphicon glyphicon-thumbs-up"></span>  
+				{{ item.get('up', 0) }}
+			</a>
+		</div>
+		<div class="navgate">
+			<a class="downvote btn btn-default btn-large" href="{{ reverse_url('joke', next_pk) }}">
+				<span class="glyphicon glyphicon-chevron-left"></span>  
+				上一条
+			</a>
+			<a class="btn btn-default btn-large" href="{{ reverse_url('random_page') }}">
 			  <span class="glyphicon glyphicon-random"></span>  随便看看
 			</a>
-			-->
-			<a class="upvote btn btn-success btn-large" href="{{ reverse_url('joke', next_pk) }}">
-				<span class="glyphicon glyphicon-thumbs-up"></span>  
-				赞！下一个
+			<a class="upvote btn btn-default btn-large" href="{{ reverse_url('joke', next_pk) }}">
+				下一条
+				<span class="glyphicon glyphicon-chevron-right"></span>  
 			</a>
 		</div>
 

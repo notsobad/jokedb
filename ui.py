@@ -83,11 +83,11 @@ class AboutHandler(tornado.web.RequestHandler):
 class PagesHandler(tornado.web.RequestHandler):
 	def get(self, page):
 		page = int(page)
-		per_page = 5
+		per_page = 10
 		j = Joke()
 		count = j.count
 		items = j.coll.find().sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
-		pagination = Pagination(page, 20, count)
+		pagination = Pagination(page, per_page, count)
 		self.render("jokes.html", items=items, pagination=pagination)
 
 
@@ -112,7 +112,7 @@ class SearchHandler(tornado.web.RequestHandler):
 		docs = j.coll.find({'cont': RE_Q})
 		count = docs.count()
 		items = docs.sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
-		pagination = Pagination(page, 20, count)
+		pagination = Pagination(page, per_page, count)
 		self.render("jokes.html", items=items, pagination=pagination)
 
 
