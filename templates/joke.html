@@ -43,6 +43,18 @@ $(function(){
 					<td>{{ item['md5'] }}</td>
 				</tr>
 				<tr>
+					<td>UP vote</td>
+					<td>{{ item.get('up', 0) }}</td>
+				</tr>
+				<tr>
+					<td>DOWN vote</td>
+					<td>{{ item.get('down', 0) }}</td>
+				</tr>
+				<tr>
+					<td>RANK</td>
+					<td>{{ item.get('rank', 0) }}</td>
+				</tr>
+				<tr>
 					<td>永久网址</td>
 					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
 				</tr>

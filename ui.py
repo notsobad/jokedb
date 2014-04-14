@@ -7,30 +7,26 @@ import urlparse
 import random
 import hashlib
 import re
-from model import Joke
-from pagination import Pagination
 from bson.objectid import ObjectId
 import tornado.ioloop
 import tornado.web
 import tornado
 import tornado.httpclient
 from tornado.options import define, options
+from lib.model import Joke
+from lib.pagination import Pagination
+from api import urls_map
 
 class MainHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.render('index.html')
-
-class JumpHandler(tornado.web.RequestHandler):
-	def get(self):
-		url = self.get_argument('url', None)
-		self.redirect(url)
 
 class AddHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.render("add.html")
 
 	def post(self):
-		item = {}
+		item = {'up':0, 'down':0, 'rank':0}
 		cont = self.get_argument('cont', '').strip().encode('utf-8')
 		m = hashlib.md5()
 		m.update(cont)
@@ -53,16 +49,14 @@ class AddHandler(tornado.web.RequestHandler):
 
 class DeleteHandler(tornado.web.RequestHandler):
 	def get(self, pk):
-		_id = ObjectId(pk)
 		j = Joke()
-		j.coll.remove({'_id':_id})
+		j.delete(pk)
 		self.redirect(self.reverse_url("main"))
 		
 class EditHandler(tornado.web.RequestHandler):
 	def get(self, pk):
-		_id = ObjectId(pk)
 		j = Joke()
-		item = j.coll.find_one({'_id':_id})
+		item = j.get(pk)
 		self.render("edit.html", item=item)
 
 	def post(self, pk):
@@ -80,9 +74,7 @@ class EditHandler(tornado.web.RequestHandler):
 		item['md5'] = unicode(md5)
 		item['r'] = random.random() 
 		j.coll.save(item)
-		#flash(u"修改成功！")
 		self.redirect(self.reverse_url("joke", pk))
-			
 
 class AboutHandler(tornado.web.RequestHandler):
 	def get(self):
@@ -134,23 +126,6 @@ class RandomHandler(tornado.web.RequestHandler):
 				
 		self.redirect( self.reverse_url('joke', str(item['_id'])) )
 
-class VoteHandler(tornado.web.RequestHandler):
-	def post(self):
-		'''
-		pk=4ff9bb18fc5d007006dbfc8d&act=up
-		'''
-		pk = self.get_argument('pk')
-		act = self.get_argument('act')
-		_id = ObjectId(pk)
-		j = Joke()
-		item = j.coll.find_one({'_id':_id})
-		if act == 'up':
-			item['up'] += 1
-		else:
-			item['down'] += 1
-		j.coll.save(item)
-		self.write({'status':'ok'})	
-
 define("port", default=9527, help="port to listen")
 define("debug", default=False, help="enable debug?")
 tornado.options.parse_command_line()
@@ -161,7 +136,6 @@ settings = {
 
 app = tornado.web.Application([
 	tornado.web.url(r'/', MainHandler, name="main"),
-	tornado.web.url(r'/jump/', JumpHandler, name="jump"),
 	tornado.web.url(r'/add/', AddHandler, name="add"),
 	tornado.web.url(r'/edit/([^/]+)/', EditHandler, name="edit"),
 	tornado.web.url(r'/delete/([^/]+)/', DeleteHandler, name="delete"),
@@ -171,7 +145,7 @@ app = tornado.web.Application([
 	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
 	tornado.web.url(r'/search/([^/]+)/', SearchHandler, name="search"),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
-], **settings)
+] + urls_map, **settings)
 
 if __name__ == '__main__':
 	app.listen(options.port)
