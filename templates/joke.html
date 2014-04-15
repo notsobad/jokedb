@@ -13,7 +13,6 @@ $(function(){
 			return;
 		}
 		var act = $(this).hasClass('upvote') ? 'up' : 'down';
-		console.log(act);
 		$('.vote a').addClass('disabled');
 
 		$.post(api_vote, {'act':act, 'pk':pk}, function(){
@@ -27,21 +26,25 @@ $(function(){
 	<div class="col-md-7">
 		<article class="main cont">
 			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
-			<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
-			<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
 
 		</article>
-	
-		<div class="vote">
-			<a class="downvote btn btn-danger btn-sm">
-				<span class="glyphicon glyphicon-thumbs-down"></span>  
-				{{ item.get('down', 0) }}
-			</a>
-			<a class="upvote btn btn-success btn-sm">
-				<span class="glyphicon glyphicon-thumbs-up"></span>  
-				{{ item.get('up', 0) }}
-			</a>
+		<div class="control-area">
+			<div class="">
+				<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
+				<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
+			</div>
+			<div class="vote">
+				<a class="downvote btn btn-danger btn-xs">
+					<span class="glyphicon glyphicon-thumbs-down"></span>  
+					{{ item.get('down', 0) }}
+				</a>
+				<a class="upvote btn btn-success btn-xs">
+					<span class="glyphicon glyphicon-thumbs-up"></span>  
+					{{ item.get('up', 0) }}
+				</a>
+			</div>
 		</div>
+		<hr/>
 		<div class="navgate">
 			<a class="downvote btn btn-default btn-large" href="{{ reverse_url('joke', next_pk) }}">
 				<span class="glyphicon glyphicon-chevron-left"></span>  
@@ -58,7 +61,7 @@ $(function(){
 
 	</div>
 	<div class="col-md-5">
-		<table class="table table-striped joke-info">
+		<table class="table joke-info">
 				<tr>
 					<td>来源</td>
 					<td>{{ item['source'] }}</td>
