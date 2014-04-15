@@ -40,3 +40,5 @@ box-shadow: 0px 0px 10px #444;
 .vote a span{display:none;}
 .hero-unit h1{font-size:50px;}
 }
+
+.main >.well {padding-bottom:25px;}

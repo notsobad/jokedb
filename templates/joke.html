@@ -27,7 +27,9 @@ $(function(){
 	<div class="col-md-7">
 		<article class="well main cont">
 			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
-			<p><a href="{{ reverse_url("edit", item['_id']) }}">编辑</a> <a href="{{ reverse_url("delete", item['_id']) }}">删除</a> </p>
+			<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
+			<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
+
 		</article>
 	
 		<div class="vote">

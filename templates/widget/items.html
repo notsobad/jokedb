@@ -1,0 +1,12 @@
+{% for item in items %}
+	<div class="well">
+		<p>{{ item['cont'] }}</p>
+		<div class="pull-left">
+			<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
+			<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
+		</div>
+		<div class="pull-right">
+			<i><a href="{{ reverse_url('joke', item['_id']) }}">Show</a></i>
+		</div>
+	</div>
+{% end %}
