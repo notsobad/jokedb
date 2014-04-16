@@ -26,26 +26,10 @@ class AddHandler(tornado.web.RequestHandler):
 		self.render("add.html")
 
 	def post(self):
-		item = {'up':0, 'down':0, 'rank':0}
-		cont = self.get_argument('cont', '').strip().encode('utf-8')
-		m = hashlib.md5()
-		m.update(cont)
-		md5 = m.hexdigest()
-		if not cont:
-			pass
-		item['cont'] = cont
-		item['md5'] = md5
-		item['source'] = 'ishuoxiao'
-		item['r'] = random.random() 
-		
 		j = Joke()
-		_item = j.coll.find_one({'md5':md5})
-		if _item:
-			_id = _item['_id']
-		else:
-			_id = j.coll.save(item)
-			
-		self.redirect(self.reverse_url("joke", str(_id)))
+		cont = self.get_argument('cont', '').strip().encode('utf-8')
+		pk = j.save(cont=cont)
+		self.redirect(self.reverse_url("joke", pk))
 
 class DeleteHandler(tornado.web.RequestHandler):
 	def get(self, pk):
@@ -60,20 +44,10 @@ class EditHandler(tornado.web.RequestHandler):
 		self.render("edit.html", item=item)
 
 	def post(self, pk):
-		_id = ObjectId(pk)
 		j = Joke()
-		item = j.coll.find_one({'_id':_id})
-
 		cont = self.get_argument('cont', '').strip().encode('utf-8')
-		m = hashlib.md5()
-		m.update(cont)
-		md5 = m.hexdigest()
-		if not cont:
-			pass
-		item['cont'] = cont
-		item['md5'] = unicode(md5)
-		item['r'] = random.random() 
-		j.coll.save(item)
+		j.save(cont=cont, pk=pk)
+		
 		self.redirect(self.reverse_url("joke", pk))
 
 class AboutHandler(tornado.web.RequestHandler):

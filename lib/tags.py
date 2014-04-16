@@ -4,6 +4,7 @@ import jieba.analyse
 from optparse import OptionParser
 from model import Joke
 
+jieba.initialize()
 NUM_TAGS = 15
 
 def get_tags(cont):
@@ -18,7 +19,6 @@ def recreate_tags():
 	items = j.coll.find()
 	for item in items:
 		tags = get_tags(item['cont'])
-		#print tags
 		j.update(item['_id'], {'tags':tags})
 		print 'update: %s, %s tags' % (item['_id'], len(tags))
 

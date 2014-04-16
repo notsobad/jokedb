@@ -1,11 +1,22 @@
+import random
+import hashlib
 import pymongo
+import jieba
+import jieba.analyse
 from bson.objectid import ObjectId
+
+jieba.initialize()
+NUM_TAGS = 15
 
 class Joke:
 	def __init__(self):
 		self.db = pymongo.Connection().jokedb
 		self.coll = self.db.jokes
 	
+	def gen_tags(self, cont):
+		tags = jieba.analyse.extract_tags(cont, topK=NUM_TAGS)
+		return tags
+
 	def get(self, pk):
 		_id = self.get_id(pk)
 		return self.coll.find_one({'_id':_id})
@@ -30,28 +41,36 @@ class Joke:
 		_id = self.get_id(pk)
 		return self.coll.remove({'_id':_id})
 	
-	def _md5(self, s):
+	def _md5(self, cont):
 		m = hashlib.md5()
 		m.update(cont)
-		return m.hexdigest()
+		return unicode(m.hexdigest())
 
-	def add(self, **kwargs):
+	def save(self, **kwargs):
 		cont = kwargs.get('cont', '')
+		pk = kwargs.get('pk', '')
 		if not cont:
 			return None
-
+		
+		md5 = self._md5(cont)
 		item = {
 			'up' : 0,
 			'down' : 0,
 			'rank' : 0,
 			'cont' : cont,
-			'md5' : self._md5(cont),
+			'md5' : md5,
 			'r' : random.random(),
 			'source' : 'ishuoxiao',
+			'tags' : self.gen_tags(cont)
 		}
-		
-		_item = self.coll.update({'md5': md5}, {'$set': item})
-		return str(_item['_id'])
+		#_item = self.coll.update({'md5': md5}, {'$set': item}, upsert=True)
+		if pk:
+			# update
+			_id = self.get_id(pk)
+		else:
+			# add
+			_id = self.coll.save(item)
+		return str(_id)
 
 	@property
 	def count(self):

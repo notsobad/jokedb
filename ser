@@ -1,1 +1,2 @@
+pushd /vagrant
 python ui.py --debug --port=8080
