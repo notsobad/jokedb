@@ -28,7 +28,7 @@ class AddHandler(tornado.web.RequestHandler):
 	def post(self):
 		j = Joke()
 		cont = self.get_argument('cont', '').strip().encode('utf-8')
-		pk = j.save(cont=cont)
+		pk = j.add(cont=cont)
 		self.redirect(self.reverse_url("joke", pk))
 
 class DeleteHandler(tornado.web.RequestHandler):
@@ -46,7 +46,7 @@ class EditHandler(tornado.web.RequestHandler):
 	def post(self, pk):
 		j = Joke()
 		cont = self.get_argument('cont', '').strip().encode('utf-8')
-		j.save(cont=cont, pk=pk)
+		j.update(cont=cont, pk=pk)
 		
 		self.redirect(self.reverse_url("joke", pk))
 

@@ -1,3 +1,4 @@
+import datetime
 import random
 import hashlib
 import pymongo
@@ -46,7 +47,20 @@ class Joke:
 		m.update(cont)
 		return unicode(m.hexdigest())
 
-	def save(self, **kwargs):
+	def update(self, **kwargs):
+		cont = kwargs.get('cont', '')
+		pk = kwargs.get('pk', '')
+		if not cont:
+			return None
+		_id = self.get_id(pk)
+		obj = {
+			'cont' : cont,
+			'md5' : self._md5(cont),
+			'tags' : self.gen_tags(cont),
+		}
+		self.coll.update({'_id': _id}, {'$set': obj})
+
+	def add(self, **kwargs):
 		cont = kwargs.get('cont', '')
 		pk = kwargs.get('pk', '')
 		if not cont:
@@ -61,15 +75,11 @@ class Joke:
 			'md5' : md5,
 			'r' : random.random(),
 			'source' : 'ishuoxiao',
-			'tags' : self.gen_tags(cont)
+			'tags' : self.gen_tags(cont),
+			'created' : datetime.datetime.now()
 		}
 		#_item = self.coll.update({'md5': md5}, {'$set': item}, upsert=True)
-		if pk:
-			# update
-			_id = self.get_id(pk)
-		else:
-			# add
-			_id = self.coll.save(item)
+		_id = self.coll.save(item)
 		return str(_id)
 
 	@property
