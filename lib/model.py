@@ -30,9 +30,9 @@ class Joke:
 			return pk
 		return ObjectId(pk)
 
-	def update(self, pk, item):
-		_id = self.get_id(pk)
-		return self.coll.update({'_id':_id}, {'$set': item})
+	#def update(self, pk, item):
+	#	_id = self.get_id(pk)
+	#	return self.coll.update({'_id':_id}, {'$set': item})
 
 	def incr(self, pk, obj):
 		_id = self.get_id(pk)

@@ -19,7 +19,8 @@ def recreate_tags():
 	items = j.coll.find()
 	for item in items:
 		tags = get_tags(item['cont'])
-		j.update(item['_id'], {'tags':tags})
+		#j.update(item['_id'], {'tags':tags})
+		j.update(**item)
 		print 'update: %s, %s tags' % (item['_id'], len(tags))
 
 if __name__ == '__main__':
