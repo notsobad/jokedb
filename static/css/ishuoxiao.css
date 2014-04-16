@@ -37,6 +37,7 @@ box-shadow: 0px 0px 10px #444;
 .hero-unit h1{font-size:50px;}
 }*/
 
-.main >.well {padding-bottom:25px;}
+.joke-item{padding-bottom:25px;}
+.joke-item .opt-area {display:none}
 .joke-info{background-color: #f4f8fa; border-left: 3px solid #5bc0de;}
 .navgate{text-align:center;margin:20px;}
