@@ -7,22 +7,27 @@ class Joke:
 		self.coll = self.db.jokes
 	
 	def get(self, pk):
-		_id = ObjectId(pk)
+		_id = self.get_id(pk)
 		return self.coll.find_one({'_id':_id})
 	
 	def find(self, q):
 		return self.coll.find(q).limit(10)
+	
+	def get_id(self, pk):
+		if isinstance(pk, ObjectId):
+			return pk
+		return ObjectId(pk)
 
 	def update(self, pk, item):
-		_id = ObjectId(pk)
+		_id = self.get_id(pk)
 		return self.coll.update({'_id':_id}, {'$set': item})
 
 	def incr(self, pk, obj):
-		_id = ObjectId(pk)
+		_id = self.get_id(pk)
 		return self.coll.update({'_id':_id}, {'$inc': obj})
 	
 	def delete(self, pk):
-		_id = ObjectId(pk)
+		_id = self.get_id(pk)
 		return self.coll.remove({'_id':_id})
 	
 	def _md5(self, s):

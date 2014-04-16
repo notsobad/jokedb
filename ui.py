@@ -120,6 +120,21 @@ class SearchHandler(tornado.web.RequestHandler):
 		self.render("search.html", items=items, pagination=pagination, q=q)
 
 
+class TagHandler(tornado.web.RequestHandler):
+	def get(self, tag, page=1):
+		if page:
+			page = int(page)
+		else:
+			page = 1
+		per_page = 20
+		j = Joke()
+		docs = j.coll.find({'tags': tag})
+		count = docs.count()
+		items = docs.sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
+		pagination = Pagination(page, per_page, count)
+		self.render("tag.html", items=items, pagination=pagination, tag=tag)
+
+
 class RandomHandler(tornado.web.RequestHandler):
 	def get(self):
 		r = random.random()
@@ -148,6 +163,7 @@ app = tornado.web.Application([
 	tornado.web.url(r'/page/(\d+)/', PagesHandler, name="page"),
 	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
 	tornado.web.url(r'/search/([^/]+)/(\d*)/?', SearchHandler, name="search"),
+	tornado.web.url(r'/tag/([^/]+)/(\d*)/?', TagHandler, name="tag"),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
 ] + urls_map, **settings)
 

@@ -46,14 +46,14 @@ $(function(){
 		</div>
 		<hr/>
 		<div class="navgate">
-			<a class="downvote btn btn-default btn-large" href="{{ reverse_url('joke', next_pk) }}">
+			<a class="downvote btn btn-default btn-sm" href="{{ reverse_url('joke', next_pk) }}">
 				<span class="glyphicon glyphicon-chevron-left"></span>  
 				上一条
 			</a>
-			<a class="btn btn-default btn-large" href="{{ reverse_url('random_page') }}">
+			<a class="btn btn-default btn-sm" href="{{ reverse_url('random_page') }}">
 			  <span class="glyphicon glyphicon-random"></span>  随便看看
 			</a>
-			<a class="upvote btn btn-default btn-large" href="{{ reverse_url('joke', next_pk) }}">
+			<a class="upvote btn btn-default btn-sm" href="{{ reverse_url('joke', next_pk) }}">
 				下一条
 				<span class="glyphicon glyphicon-chevron-right"></span>  
 			</a>
@@ -85,6 +85,14 @@ $(function(){
 				<tr>
 					<td>永久网址</td>
 					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
+				</tr>
+				<tr>
+					<td>TAGS</td>
+					<td>
+					{% for tag in item.get('tags', []) %}
+					<a href="{{ reverse_url('tag', tag, 1) }}">{{ tag }}</a>
+					{% end %}
+					</td>
 				</tr>
 		</table>
 		{% comment include "widget/about_box.html" %}
