@@ -65,6 +65,17 @@ class PagesHandler(tornado.web.RequestHandler):
 		self.render("jokes.html", items=items, pagination=pagination)
 
 
+class TopHandler(tornado.web.RequestHandler):
+	def get(self):
+		#page = int(page)
+		per_page = 10
+		j = Joke()
+		count = j.count
+		items = j.coll.find().sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
+		pagination = Pagination(page, per_page, count)
+		self.render("jokes.html", items=items, pagination=pagination)
+
+
 class JokeHandler(tornado.web.RequestHandler):
 	def get(self, pk):
 		_id = ObjectId(pk)
@@ -129,6 +140,7 @@ settings = {
 
 app = tornado.web.Application([
 	tornado.web.url(r'/', MainHandler, name="main"),
+	tornado.web.url(r'/top/', TopHandler, name="top"),
 	tornado.web.url(r'/add/', AddHandler, name="add"),
 	tornado.web.url(r'/edit/([^/]+)/', EditHandler, name="edit"),
 	tornado.web.url(r'/delete/([^/]+)/', DeleteHandler, name="delete"),
