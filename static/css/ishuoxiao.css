@@ -51,9 +51,11 @@ margin: 0px 5px 5px 0px;
 display: inline-block;
 color: #778087;
 text-decoration: none;
+font-size:12px;
 }
 .tag:hover { background-color: #99a; color: #fff; text-decoration: none; }
 
 a:link, a:visited, a:active {
 text-decoration: none;
 }
+.tag .glyphicon-tag{color:rgb(223, 223, 223)}

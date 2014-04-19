@@ -26,7 +26,15 @@ $(function(){
 	<div class="col-md-7">
 		<article class="main cont">
 			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
-
+			
+			<p class="tags">
+			{% for tag in item.get('tags', []) %}
+			<a class="tag" href="{{ reverse_url('tag', tag, 1) }}">
+				<span class="glyphicon glyphicon-tag"></span>
+				{{ tag }}
+			</a>
+			{% end %}
+			</p>
 		</article>
 		<div class="control-area">
 			<div class="">
@@ -90,6 +98,7 @@ $(function(){
 					<td>LINK</td>
 					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
 				</tr>
+				<!--
 				<tr>
 					<td>TAGS</td>
 					<td>
@@ -98,6 +107,7 @@ $(function(){
 					{% end %}
 					</td>
 				</tr>
+				-->
 		</table>
 		{% comment include "widget/about_box.html" %}
 		{% include "widget/search_box.html" %}
