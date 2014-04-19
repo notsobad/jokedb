@@ -71,15 +71,15 @@ $(function(){
 					<td>{{ item['md5'] }}</td>
 				</tr>
 				<tr>
-					<td>COLLECTED</td>
+					<td>ADDED</td>
 					<td>{{ item['created'] }}</td>
 				</tr>
 				<tr>
-					<td>UP vote</td>
+					<td>+1</td>
 					<td>{{ int(item.get('up', 0)) }}</td>
 				</tr>
 				<tr>
-					<td>DOWN vote</td>
+					<td>-1</td>
 					<td>{{ int(item.get('down', 0)) }}</td>
 				</tr>
 				<tr>
@@ -87,14 +87,14 @@ $(function(){
 					<td>{{ item.get('rank', 0) }}</td>
 				</tr>
 				<tr>
-					<td>Link</td>
+					<td>LINK</td>
 					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
 				</tr>
 				<tr>
 					<td>TAGS</td>
 					<td>
 					{% for tag in item.get('tags', []) %}
-					<a href="{{ reverse_url('tag', tag, 1) }}">{{ tag }}</a>
+					<a class="tag" href="{{ reverse_url('tag', tag, 1) }}">{{ tag }}</a>
 					{% end %}
 					</td>
 				</tr>

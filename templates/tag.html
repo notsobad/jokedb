@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="header"></div>
+<div class="header">
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">{{ tag }}</li>
+</ol>
+</div>
 <div class="row">
 	<div class="col-md-7">
 		{% include "widget/items.html" %}
