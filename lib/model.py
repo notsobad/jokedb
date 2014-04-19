@@ -5,6 +5,7 @@ import pymongo
 import jieba
 import jieba.analyse
 from bson.objectid import ObjectId
+import rank
 
 jieba.initialize()
 NUM_TAGS = 15
@@ -30,14 +31,21 @@ class Joke:
 			return pk
 		return ObjectId(pk)
 
-	#def update(self, pk, item):
-	#	_id = self.get_id(pk)
-	#	return self.coll.update({'_id':_id}, {'$set': item})
-
 	def incr(self, pk, obj):
 		_id = self.get_id(pk)
 		return self.coll.update({'_id':_id}, {'$inc': obj})
 	
+	def vote(self, pk, up=0, down=0):
+		'''
+		May have problem when multi user vote at same time.
+		'''
+		_id = self.get_id(pk)
+		item = self.get(pk)
+		item['up'] += up
+		item['down'] += down
+		item['rank'] = rank.hot(item['up'], item['down'], item['created'])
+		return self.coll.save(item)
+
 	def delete(self, pk):
 		_id = self.get_id(pk)
 		return self.coll.remove({'_id':_id})

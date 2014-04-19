@@ -36,11 +36,11 @@ $(function(){
 			<div class="vote">
 				<a class="downvote btn btn-danger btn-xs">
 					<span class="glyphicon glyphicon-thumbs-down"></span>  
-					{{ item.get('down', 0) }}
+					{{ int(item.get('down', 0)) }}
 				</a>
 				<a class="upvote btn btn-success btn-xs">
 					<span class="glyphicon glyphicon-thumbs-up"></span>  
-					{{ item.get('up', 0) }}
+					{{ int(item.get('up', 0)) }}
 				</a>
 			</div>
 		</div>
@@ -63,7 +63,7 @@ $(function(){
 	<div class="col-md-5">
 		<table class="table joke-info">
 				<tr>
-					<td>来源</td>
+					<td width="100">SOURCE</td>
 					<td>{{ item['source'] }}</td>
 				</tr>
 				<tr>
@@ -71,23 +71,23 @@ $(function(){
 					<td>{{ item['md5'] }}</td>
 				</tr>
 				<tr>
-					<td>收录时间</td>
+					<td>COLLECTED</td>
 					<td>{{ item['created'] }}</td>
 				</tr>
 				<tr>
 					<td>UP vote</td>
-					<td>{{ item.get('up', 0) }}</td>
+					<td>{{ int(item.get('up', 0)) }}</td>
 				</tr>
 				<tr>
 					<td>DOWN vote</td>
-					<td>{{ item.get('down', 0) }}</td>
+					<td>{{ int(item.get('down', 0)) }}</td>
 				</tr>
 				<tr>
 					<td>RANK</td>
 					<td>{{ item.get('rank', 0) }}</td>
 				</tr>
 				<tr>
-					<td>永久网址</td>
+					<td>Link</td>
 					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
 				</tr>
 				<tr>

@@ -33,8 +33,13 @@ class VoteHandler(tornado.web.RequestHandler):
 		act = self.get_argument('act')
 		j = Joke()
 		assert act in ('up', 'down')
-		j.incr(pk, {act:1})
-		self.write({'status':'ok'})	
+		up = down = 0
+		if act == 'up':
+			up = 1
+		else:
+			down = 1
+		j.vote(pk, up=up, down=down)
+		self.write({'status':'ok'})
 
 urls_map = [
 	tornado.web.url(r'/api/joke/([^/]+)/', APIJokeHandler, name="api-joke"),
