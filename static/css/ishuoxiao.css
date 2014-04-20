@@ -18,14 +18,14 @@ box-shadow: 0px 0px 10px #444;
 .pagination{background-color:white;}
 .hero-unit p{line-height:50px;}
 
-.nav                { height: 42px; margin: 0 0 0 0; padding: 0; font-size: 15px;
-                      list-style: none; }
+.nav{ margin: 20px 0 0 150px; padding: 0; font-size: 15px;list-style: none; }
 .nav li:before      { display: none; }
 .nav li             { float: left; padding: 0; background: #D3E6EC;
                       margin: 0 8px 0 0; }
 .nav li a           { padding: 4px 8px; display: block; text-decoration: none; }
 .nav li a:hover     { color: white; background: #004B6B; }
 .nav .active a      { border-bottom: 3px solid #004B6B; }
+.nav a:visited{}
 
 .joke-add textarea{font-size:16px;width:100%; height:300px;line-height:200%; padding:20px;}
 /*
@@ -59,3 +59,18 @@ a:link, a:visited, a:active {
 text-decoration: none;
 }
 .tag .glyphicon-tag{color:rgb(223, 223, 223)}
+.top-nav {background-color:#556378;color:white;margin-bottom:10px;}
+.main-body{padding-top:10px;}
+.top-nav h1{float:left;margin-top:10px;}
+/*.top-nav{
+  background-color: #e47911;
+  background-image: -moz-linear-gradient(left, #f43f20, #e47911);
+  background-image: -ms-linear-gradient(left, #f43f20, #e47911);
+  background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#f43f20), to(#e47911));
+  background-image: -o-linear-gradient(left, #f43f20, #e47911);
+  background-image: linear-gradient(left, #f43f20, #e47911);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f43f20', endColorstr='#e47911', GradientType=1);
+  position: relative;
+}*/
+.footer{margin:20px 0 10px 0;}

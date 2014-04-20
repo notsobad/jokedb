@@ -7,10 +7,6 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<!--
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
--->
 	<link rel="stylesheet" href="/static/bootstrap-3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/static/bootstrap-3.1.1/css/bootstrap-theme.min.css">
 	<link href="/static/css/ishuoxiao.css" rel="stylesheet">
@@ -19,7 +15,7 @@
 	<script type="text/javascript" src="/static/js/underscore-1.6.0-min.js"></script>
 <script src="/static/bootstrap-3.1.1/js/bootstrap.min.js"></script>
 <style>
-footer{margin-top: 45px; padding: 35px 0 36px; border-top: 1px solid #E5E5E5;}
+/*footer{margin-top: 45px; padding: 35px 0 36px; border-top: 1px solid #E5E5E5;}*/
 </style>
       <title>爱说笑 - 互联网上最全的中文段子库</title>
       <script>
@@ -29,13 +25,10 @@ $(function(){
       </script>
     </head>
     <body>
-<div class="container">
-
-<header>
-	<div>
-		<h1>爱说笑</h1>
-	</div>
-	 <ul class="nav">
+	<header class="top-nav">
+		<div class="container">
+			<h1>爱说笑</h1>
+		<ul class="nav">
 		  <li class="">
 			<a href="/">首页</a>
 		  </li>
@@ -51,8 +44,11 @@ $(function(){
 		  <li class="">
 			<a href="{{ reverse_url("about") }}">关于</a>
 		  </li>
-	</ul>
-</header>
+		</ul>
+
+		</div>
+	</header>
+<div class="container main-body">
 {% block body %}
 {% end %}
 </div>

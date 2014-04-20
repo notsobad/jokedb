@@ -26,7 +26,7 @@ $(function(){
 	<div class="col-md-7">
 		<article class="main cont">
 			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
-			
+			<hr/>
 			<p class="tags">
 			{% for tag in item.get('tags', []) %}
 			<a class="tag" href="{{ reverse_url('tag', tag, 1) }}">
