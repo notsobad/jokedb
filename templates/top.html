@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="header">
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">最热</li>
+</ol>
+</div>
+<div class="row">
+	<div class="col-md-7">
+		{% include "widget/items.html" %}
+	</div>
+	<div class="col-md-5">
+		{% comment include "widget/about_box.html" %}
+		{% include "widget/search_box.html" %}
+	</div>
+</div><!--EOF row-->
+{% include "widget/pagination_top.html" %}
+{% end %}
