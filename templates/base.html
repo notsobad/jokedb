@@ -13,10 +13,7 @@
 	<script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/static/js/underscore-1.6.0-min.js"></script>
-<script src="/static/bootstrap-3.1.1/js/bootstrap.min.js"></script>
-<style>
-/*footer{margin-top: 45px; padding: 35px 0 36px; border-top: 1px solid #E5E5E5;}*/
-</style>
+	<script src="/static/bootstrap-3.1.1/js/bootstrap.min.js"></script>
       <title>爱说笑 - 互联网上最全的中文段子库</title>
       <script>
 $(function(){
@@ -33,7 +30,10 @@ $(function(){
 			<a href="/">首页</a>
 		  </li>
 		  <li class="">
-			<a href="/page/1/">所有</a>
+			<a href="{{ reverse_url('newest', 1) }}">最新</a>
+		  </li>
+		  <li class="">
+			<a href="{{ reverse_url('top', 1) }}">最热</a>
 		  </li>
 		  <li class="">
 			<a href="{{ reverse_url('random_page') }}">随机</a>

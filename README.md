@@ -1,4 +1,4 @@
-# jokedb
+# JokeDB
 
 My old project, try to get it up and running.
 

@@ -54,26 +54,26 @@ class AboutHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.render("about.html")
 
-class PagesHandler(tornado.web.RequestHandler):
+class NewestHandler(tornado.web.RequestHandler):
 	def get(self, page):
 		page = int(page)
 		per_page = 10
 		j = Joke()
 		count = j.count
-		items = j.coll.find().sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
+		items = j.coll.find().sort('_id', -1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
-		self.render("jokes.html", items=items, pagination=pagination)
+		self.render("newest.html", items=items, pagination=pagination)
 
 
 class TopHandler(tornado.web.RequestHandler):
-	def get(self):
-		#page = int(page)
+	def get(self, page=1):
+		page = int(page)
 		per_page = 10
 		j = Joke()
 		count = j.count
-		items = j.coll.find().sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
+		items = j.coll.find().sort('rank',-1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
-		self.render("jokes.html", items=items, pagination=pagination)
+		self.render("top.html", items=items, pagination=pagination, reverse_handler='top')
 
 
 class JokeHandler(tornado.web.RequestHandler):
@@ -140,13 +140,13 @@ settings = {
 
 app = tornado.web.Application([
 	tornado.web.url(r'/', MainHandler, name="main"),
-	tornado.web.url(r'/top/', TopHandler, name="top"),
+	tornado.web.url(r'/top/(\d+)/', TopHandler, name="top"),
 	tornado.web.url(r'/add/', AddHandler, name="add"),
 	tornado.web.url(r'/edit/([^/]+)/', EditHandler, name="edit"),
 	tornado.web.url(r'/delete/([^/]+)/', DeleteHandler, name="delete"),
 	tornado.web.url(r'/about/', AboutHandler, name="about"),
 	tornado.web.url(r'/random/', RandomHandler, name="random_page"),
-	tornado.web.url(r'/page/(\d+)/', PagesHandler, name="page"),
+	tornado.web.url(r'/new/(\d+)/', NewestHandler, name="newest"),
 	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
 	tornado.web.url(r'/search/([^/]+)/(\d*)/?', SearchHandler, name="search"),
 	tornado.web.url(r'/tag/([^/]+)/(\d*)/?', TagHandler, name="tag"),
