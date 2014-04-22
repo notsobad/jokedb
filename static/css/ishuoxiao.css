@@ -1,15 +1,7 @@
 body { background-color:#ece5d8; font-family:"Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti !important}
 body > .container{background-color:white;}
-.cont {}
 .cont p{font-size:16px; line-height:200%;}
-.shadow {
--o-box-shadow: 0px 0px 10px #444;
--icab-box-shadow: 0px 0px 10px #444;
--khtml-box-shadow: 0px 0px 10px #444;
--moz-box-shadow: 0px 0px 10px #444;
--webkit-box-shadow: 0px 0px 10px #444; 
-box-shadow: 0px 0px 10px #444;
-}
+
 .about-this p{padding:10px;}
 .vote{text-align:center;}
 .vote a{cursor:pointer; margin:10px 10px;}
@@ -28,16 +20,8 @@ box-shadow: 0px 0px 10px #444;
 .nav a:visited{}
 
 .joke-add textarea{font-size:16px;width:100%; height:300px;line-height:200%; padding:20px;}
-/*
-@media (max-width: 480px) {
-.cont p{font-size:110%;}
-.cont {min-height:200px;}
-.joke-info{display:none;}
-.vote a span{display:none;}
-.hero-unit h1{font-size:50px;}
-}*/
 
-.joke-item{padding-bottom:25px;}
+.joke-item{padding-bottom:15px;}
 .joke-item .opt-area {display:none}
 .joke-info{background-color: #f4f8fa; border-left: 3px solid #5bc0de; color:gray;}
 .navgate{text-align:center;margin:20px;}
@@ -62,15 +46,5 @@ text-decoration: none;
 .top-nav {background-color:#556378;color:white;margin-bottom:10px;}
 .main-body{padding-top:10px;}
 .top-nav h1{float:left;margin-top:10px;}
-/*.top-nav{
-  background-color: #e47911;
-  background-image: -moz-linear-gradient(left, #f43f20, #e47911);
-  background-image: -ms-linear-gradient(left, #f43f20, #e47911);
-  background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#f43f20), to(#e47911));
-  background-image: -o-linear-gradient(left, #f43f20, #e47911);
-  background-image: linear-gradient(left, #f43f20, #e47911);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f43f20', endColorstr='#e47911', GradientType=1);
-  position: relative;
-}*/
 .footer{margin:20px 0 10px 0;}
+.footer .container p{text-align:center;}
