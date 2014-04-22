@@ -12,12 +12,10 @@ body > .container{background-color:white;}
 
 .nav{ margin: 20px 0 0 150px; padding: 0; font-size: 15px;list-style: none; }
 .nav li:before      { display: none; }
-.nav li             { float: left; padding: 0; background: #D3E6EC;
-                      margin: 0 8px 0 0; }
+.nav li             { float: left; padding: 0; background: #FFF; margin: 0 8px 0 0; }
 .nav li a           { padding: 4px 8px; display: block; text-decoration: none; }
-.nav li a:hover     { color: white; background: #004B6B; }
+.nav li a:hover     { color: white; background: #000; }
 .nav .active a      { border-bottom: 3px solid #004B6B; }
-.nav a:visited{}
 
 .joke-add textarea{font-size:16px;width:100%; height:300px;line-height:200%; padding:20px;}
 
