@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %}{{ item['cont'][:16] }}...{% end %}
 {% autoescape None %}
 
 {% block body %}
@@ -80,7 +81,7 @@ $(function(){
 				</tr>
 				<tr>
 					<td>ADDED</td>
-					<td>{{ item['created'] }}</td>
+					<td>{{ str(item['created'])[:-7] }}</td>
 				</tr>
 				<tr>
 					<td>+1</td>

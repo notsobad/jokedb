@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/static/js/underscore-1.6.0-min.js"></script>
 	<script src="/static/bootstrap-3.1.1/js/bootstrap.min.js"></script>
-      <title>爱说笑 - 互联网上最全的中文段子库</title>
+      <title>{% block title %}{% end %} 爱说笑 - 互联网上最全的中文段子库</title>
       <script>
 $(function(){
 	$('.navbar .nav a').each(function(){ $(this).attr('href') == location.pathname && $(this).parent('li').addClass('active'); })
