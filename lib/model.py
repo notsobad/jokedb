@@ -90,6 +90,19 @@ class Joke:
 		_id = self.coll.save(item)
 		return str(_id)
 
+	def random(self, keyword=''):
+		r = random.random()
+		query = {'r':{'$gte':r}}
+		if keyword:	
+			query['tags'] = keyword
+
+		item = self.coll.find_one(query)
+		if not item:
+			query['r'] = {'$lte':r}
+			item = self.coll.find_one(query)
+		
+		return item
+
 	@property
 	def count(self):
 		return self.coll.find().count()
