@@ -1,14 +1,19 @@
 {% extends "base.html" %}
+{% block title %}{{ q }}{% end %}
 {% block body %}
-<div class="header"></div>
+<div class="header">
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">关键字：{{ q }}</li>
+</ol>
+</div>
 <div class="row">
 	<div class="col-md-7">
 		{% include "widget/items.html" %}
 	</div>
 	<div class="col-md-5">
-		{% comment include "widget/about_box.html" %}
 		{% include "widget/search_box.html" %}
 	</div>
 </div><!--EOF row-->
-{% include "widget/pagination_search.html" %}
+{% module Template("widget/pagination.html", pagination=pagination, url_name="search", arg1=q) %}
 {% end %}
