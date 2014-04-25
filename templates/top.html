@@ -16,5 +16,5 @@
 		{% include "widget/search_box.html" %}
 	</div>
 </div><!--EOF row-->
-{% include "widget/pagination_top.html" %}
+{% module Template("widget/pagination.html", pagination=pagination, url_name="top") %}
 {% end %}

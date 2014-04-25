@@ -12,9 +12,8 @@
 		{% include "widget/items.html" %}
 	</div>
 	<div class="col-md-5">
-		{% comment include "widget/about_box.html" %}
 		{% include "widget/search_box.html" %}
 	</div>
 </div><!--EOF row-->
-{% include "widget/pagination.html" %}
+{% module Template("widget/pagination.html", pagination=pagination, url_name="newest") %}
 {% end %}

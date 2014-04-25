@@ -2,7 +2,7 @@
 {% for page in pagination.iter_pages() %}
 {% if page %}
   {% if page != pagination.page %}
-  <li><a href="{{ reverse_url('newest', page) }}">{{ page }}</a></li>
+  <li><a href="{{ reverse_url(url_name, page) }}">{{ page }}</a></li>
   {% else %}
   <li class="active"><a href="#">{{ page }}</a></li>
   {% end %}
@@ -11,6 +11,6 @@
 {% end %}
 {% end %}
 {% if pagination.has_next %}
-<li><a href="{{ reverse_url('newest', pagination.page + 1) }}">»</a></li>
+<li><a href="{{ reverse_url(url_name, pagination.page + 1) }}">»</a></li>
 {% end %}
 </ul>
