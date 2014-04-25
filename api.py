@@ -21,6 +21,7 @@ class APIJokeHandler(tornado.web.RequestHandler):
 		j = Joke()
 		item = j.get(pk)
 		item['pk'] = str(item['_id'])
+		item['created'] = str(item['created'])
 		del item['_id']
 		self.write(item)
 
