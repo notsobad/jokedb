@@ -22,6 +22,7 @@ class MainHandler(tornado.web.RequestHandler):
 		self.render('index.html')
 
 class AddHandler(tornado.web.RequestHandler):
+	@tornado.web.addslash
 	def get(self):
 		self.render("add.html")
 
@@ -66,6 +67,7 @@ class NewestHandler(tornado.web.RequestHandler):
 
 
 class TopHandler(tornado.web.RequestHandler):
+	@tornado.web.addslash
 	def get(self, page=1):
 		page = int(page)
 		per_page = 10
@@ -73,7 +75,7 @@ class TopHandler(tornado.web.RequestHandler):
 		count = j.count
 		items = j.coll.find().sort('rank',-1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
-		self.render("top.html", items=items, pagination=pagination, reverse_handler='top')
+		self.render("top.html", items=items, pagination=pagination)
 
 
 class JokeHandler(tornado.web.RequestHandler):
@@ -148,8 +150,8 @@ app = tornado.web.Application([
 	tornado.web.url(r'/random/', RandomHandler, name="random_page"),
 	tornado.web.url(r'/new/(\d+)/', NewestHandler, name="newest"),
 	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
-	tornado.web.url(r'/search/([^/]+)/(\d*)/?', SearchHandler, name="search"),
-	tornado.web.url(r'/tag/([^/]+)/(\d*)/?', TagHandler, name="tag"),
+	tornado.web.url(r'/search/([^/]+)/(\d*)/', SearchHandler, name="search"),
+	tornado.web.url(r'/tag/([^/]+)/(\d*)/', TagHandler, name="tag"),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
 ] + urls_map, **settings)
 
