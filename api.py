@@ -35,7 +35,7 @@ class APIJokeHandler(tornado.web.RequestHandler):
 		item['created'] = str(item['created'])
 		del item['_id']
 		self.write(item)
-
+		
 class VoteHandler(tornado.web.RequestHandler):
 	def post(self):
 		'''
