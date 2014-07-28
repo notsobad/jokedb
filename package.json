@@ -1,0 +1,22 @@
+{
+    "name": "iShuoxiao",
+    "version": "0.0.1",
+    "description": "Project Description",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/path/to/your_project"
+    },
+    "author": "Author Name",
+    "license": "BSD",
+    "readmeFilename": "README.md",
+    "gitHead": "git head",
+    "devDependencies": {
+        "grunt": "latest",
+        "grunt-contrib-connect": "latest",
+        "grunt-contrib-concat": "latest",
+        "grunt-contrib-jasmine": "latest",
+        "grunt-contrib-watch": "latest",
+        "grunt-contrib-uglify": "latest",
+        "grunt-contrib-compass": "latest"
+    }
+}

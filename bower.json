@@ -1,0 +1,15 @@
+{
+  "name": "ishuoxiao",
+  "version": "0.1",
+  "main": "path/to/main.css",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+	"jquery-cookie" : "latest",
+	"bootstrap" : "latest",
+	"underscore" : "latest"
+  }
+}
