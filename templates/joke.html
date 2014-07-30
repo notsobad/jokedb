@@ -4,7 +4,7 @@
 
 {% block body %}
 <script>
-var pk = '{{ item["_id"] }}';
+var pk = location.href.replace(/.*\/joke\/([^\/]+)\//g, "$1");
 var api_vote = '{{ reverse_url("api-vote") }}';
 $(function(){
 	$.cookie('pk', pk, {expires:365, path:'/'});
@@ -20,99 +20,12 @@ $(function(){
 			location.reload();
 		});
 	});
+	$(document).pjax('a[data-pjax]', '#pjax-container');
 });
 
 </script>
-<div class="row">
-	<div class="col-md-7">
-		<article class="cont">
-			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
-			<hr/>
-			<p class="tags">
-			{% for tag in item.get('tags', []) %}
-			<a class="tag" href="{{ reverse_url('tag', tag, 1) }}">
-				<span class="glyphicon glyphicon-tag"></span>
-				{{ tag }}
-			</a>
-			{% end %}
-			</p>
-		</article>
-		<div class="control-area">
-			<div class="">
-				<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
-				<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
-			</div>
-			<div class="vote">
-				<a class="downvote btn btn-danger btn-xs">
-					<span class="glyphicon glyphicon-thumbs-down"></span>  
-					{{ int(item.get('down', 0)) }}
-				</a>
-				<a class="upvote btn btn-success btn-xs">
-					<span class="glyphicon glyphicon-thumbs-up"></span>  
-					{{ int(item.get('up', 0)) }}
-				</a>
-			</div>
-		</div>
-		<hr/>
-		<div class="navgate">
-			<a class="downvote btn btn-default btn-sm" href="{{ reverse_url('joke', next_pk) }}">
-				<span class="glyphicon glyphicon-chevron-left"></span>  
-				上一条
-			</a>
-			<a class="btn btn-default btn-sm" href="{{ reverse_url('random_page') }}">
-			  <span class="glyphicon glyphicon-random"></span>  随便看看
-			</a>
-			<a class="upvote btn btn-default btn-sm" href="{{ reverse_url('joke', next_pk) }}">
-				下一条
-				<span class="glyphicon glyphicon-chevron-right"></span>  
-			</a>
-		</div>
-
-	</div>
-	<div class="col-md-5">
-		<table class="table joke-info">
-				<tr>
-					<td width="100">SOURCE</td>
-					<td>{{ item['source'] }}</td>
-				</tr>
-				<tr>
-					<td>HASH</td>
-					<td>{{ item['md5'] }}</td>
-				</tr>
-				<tr>
-					<td>ADDED</td>
-					<td>{{ str(item['created'])[:-7] }}</td>
-				</tr>
-				<tr>
-					<td>+1</td>
-					<td>{{ int(item.get('up', 0)) }}</td>
-				</tr>
-				<tr>
-					<td>-1</td>
-					<td>{{ int(item.get('down', 0)) }}</td>
-				</tr>
-				<tr>
-					<td>RANK</td>
-					<td>{{ item.get('rank', 0) }}</td>
-				</tr>
-				<tr>
-					<td>LINK</td>
-					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
-				</tr>
-				<!--
-				<tr>
-					<td>TAGS</td>
-					<td>
-					{% for tag in item.get('tags', []) %}
-					<a class="tag" href="{{ reverse_url('tag', tag, 1) }}">{{ tag }}</a>
-					{% end %}
-					</td>
-				</tr>
-				-->
-		</table>
-		{% comment include "widget/about_box.html" %}
-		{% include "widget/search_box.html" %}
-	</div>
+<div class="row" id="pjax-container">
+{% include "joke_body.html" %}
 </div>
 {% comment include "widget/jiathis.html" %}
 {% end %}

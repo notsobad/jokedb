@@ -84,11 +84,17 @@ class JokeHandler(tornado.web.RequestHandler):
 		j = Joke()
 		items = j.coll.find({'_id':{'$gte':_id}}).sort('_id',1).limit(2)
 		item = items[0]
+
 		try:
 			next_pk = items[1]['_id']
 		except:
 			next_pk = item['_id']
-		self.render("joke.html", item=item, next_pk=next_pk)
+
+		if self.request.headers.get('X-PJAX') == 'true':
+			tpl = 'joke_body.html'
+		else:
+			tpl = 'joke.html'
+		self.render(tpl, item=item, next_pk=next_pk)
 
 class SearchHandler(tornado.web.RequestHandler):
 	def get(self, q, page=1):

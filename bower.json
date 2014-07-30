@@ -9,6 +9,7 @@
   "dependencies": {
     "jquery": "latest",
 	"jquery-cookie" : "latest",
+	"jquery-pjax" : "latest",
 	"bootstrap" : "latest",
 	"underscore" : "latest"
   }
