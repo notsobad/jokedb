@@ -4,10 +4,14 @@
 
 {% block body %}
 <script>
-var pk = location.href.replace(/.*\/joke\/([^\/]+)\//g, "$1");
 var api_vote = '{{ reverse_url("api-vote") }}';
 $(function(){
-	$.cookie('pk', pk, {expires:365, path:'/'});
+	var pk = '';
+	var init = function(){
+		pk = location.href.replace(/.*\/joke\/([^\/]+)\//g, "$1");
+		$.cookie('pk', pk, {expires:365, path:'/'});
+	};
+	init();
 
 	$('.vote a').click(function(){
 		if($(this).hasClass('disabled')){
@@ -21,6 +25,9 @@ $(function(){
 		});
 	});
 	$(document).pjax('a[data-pjax]', '#pjax-container');
+	$(document).on('pjax:complete', function() {
+		init();
+	});
 });
 
 </script>
