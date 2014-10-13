@@ -9,12 +9,14 @@
 		<div class="joke-add">
 			<form action="{{ reverse_url("login") }}" method="post" class="" style="display: block;">
 			<p>
-			P: <input type="passwd" name="pwd" value="">
+                U: <input type="text" name="username" value="">
+			P: <input type="password" name="password" value="">
 			</p>
 			<p class="version">
 				  <input class="btn btn-success" type="submit" value="Login">
 			</p>
 		  </form>
+            {{ error_message }}
 		</div>
 	</div>
 	<div class="span3">

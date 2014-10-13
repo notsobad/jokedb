@@ -17,11 +17,18 @@ from lib.model import Joke
 from lib.pagination import Pagination
 from api import urls_map
 
-class MainHandler(tornado.web.RequestHandler):
+class BaseHandler(tornado.web.RequestHandler):
+	def get_current_user(self):
+		return self.get_secure_cookie('user')
+
+class MainHandler(BaseHandler):
 	def get(self):
+		print self.current_user
+		#__import__('pdb').set_trace()
 		self.render('index.html')
 
-class AddHandler(tornado.web.RequestHandler):
+class AddHandler(BaseHandler):
+	@tornado.web.authenticated
 	@tornado.web.addslash
 	def get(self):
 		self.render("add.html")
@@ -32,13 +39,15 @@ class AddHandler(tornado.web.RequestHandler):
 		pk = j.add(cont=cont)
 		self.redirect(self.reverse_url("joke", pk))
 
-class DeleteHandler(tornado.web.RequestHandler):
+class DeleteHandler(BaseHandler):
+	@tornado.web.authenticated
 	def get(self, pk):
 		j = Joke()
 		j.delete(pk)
 		self.redirect(self.reverse_url("main"))
 		
-class EditHandler(tornado.web.RequestHandler):
+class EditHandler(BaseHandler):
+	@tornado.web.authenticated
 	def get(self, pk):
 		j = Joke()
 		item = j.get(pk)
@@ -51,11 +60,11 @@ class EditHandler(tornado.web.RequestHandler):
 		
 		self.redirect(self.reverse_url("joke", pk))
 
-class AboutHandler(tornado.web.RequestHandler):
+class AboutHandler(BaseHandler):
 	def get(self):
 		self.render("about.html")
 
-class NewestHandler(tornado.web.RequestHandler):
+class NewestHandler(BaseHandler):
 	def get(self, page):
 		page = int(page)
 		per_page = 10
@@ -66,7 +75,7 @@ class NewestHandler(tornado.web.RequestHandler):
 		self.render("newest.html", items=items, pagination=pagination)
 
 
-class TopHandler(tornado.web.RequestHandler):
+class TopHandler(BaseHandler):
 	@tornado.web.addslash
 	def get(self, page=1):
 		page = int(page)
@@ -78,7 +87,7 @@ class TopHandler(tornado.web.RequestHandler):
 		self.render("top.html", items=items, pagination=pagination)
 
 
-class JokeHandler(tornado.web.RequestHandler):
+class JokeHandler(BaseHandler):
 	def get(self, pk):
 		_id = ObjectId(pk)
 		j = Joke()
@@ -96,7 +105,7 @@ class JokeHandler(tornado.web.RequestHandler):
 			tpl = 'joke.html'
 		self.render(tpl, item=item, next_pk=next_pk)
 
-class SearchHandler(tornado.web.RequestHandler):
+class SearchHandler(BaseHandler):
 	def get(self, q, page=1):
 		if page:
 			page = int(page)
@@ -113,7 +122,7 @@ class SearchHandler(tornado.web.RequestHandler):
 		self.render("search.html", items=items, pagination=pagination, q=q)
 
 
-class TagHandler(tornado.web.RequestHandler):
+class TagHandler(BaseHandler):
 	def get(self, tag, page=1):
 		if page:
 			page = int(page)
@@ -128,7 +137,7 @@ class TagHandler(tornado.web.RequestHandler):
 		self.render("tag.html", items=items, pagination=pagination, tag=tag)
 
 
-class RandomHandler(tornado.web.RequestHandler):
+class RandomHandler(BaseHandler):
 	def get(self):
 		r = random.random()
 		j = Joke()
@@ -138,12 +147,48 @@ class RandomHandler(tornado.web.RequestHandler):
 				
 		self.redirect( self.reverse_url('joke', str(item['_id'])) )
 
+class LoginHandler(BaseHandler):
+	def get(self):
+		try:
+			error_message = self.get_argument('error')
+		except:
+			error_message = ''
+		self.render('login.html', error_message=error_message)
+
+	def post(self):
+		username = self.get_argument('username', '')
+		password = self.get_argument('password', '')
+		auth = self.check_permission(username, password)
+		print auth
+		if auth:
+			self.set_current_user(username)
+			#__import__('pdb').set_trace()
+
+			self.redirect(self.get_argument('next', '/'))
+		else:
+			error_msg = u'?error=' + tornado.escape.url_escape('login failed')
+			self.redirect(u'/login'+error_msg)
+
+	def check_permission(self, username, password):
+		return username == 'admin' and password == "test"
+
+	def set_current_user(self, user):
+		print user
+		if user:
+			self.current_user = user
+			self.set_secure_cookie('user', tornado.escape.json_encode(user))
+		else:
+			self.clear_cookie('user')
+
+
 define("port", default=9527, help="port to listen")
 define("debug", default=False, help="enable debug?")
 tornado.options.parse_command_line()
 settings = {
 	'template_path' : os.path.join(os.path.dirname(__file__), 'templates'),
-	'debug' : options.debug
+	'debug' : options.debug,
+	'login_url' : '/login/',
+	'cookie_secret' : 'dt4zRkC72CFnze8z3Jvmq7eif3XsWiyG',
 }
 
 app = tornado.web.Application([
@@ -158,6 +203,7 @@ app = tornado.web.Application([
 	tornado.web.url(r'/joke/([^/]+)/', JokeHandler, name="joke"),
 	tornado.web.url(r'/search/([^/]+)/(\d*)/', SearchHandler, name="search"),
 	tornado.web.url(r'/tag/([^/]+)/(\d*)/', TagHandler, name="tag"),
+	tornado.web.url(r'/login/', LoginHandler, name='login'),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
 ] + urls_map, **settings)
 
