@@ -72,7 +72,7 @@ class NewestHandler(BaseHandler):
 		count = j.count
 		items = j.coll.find().sort('_id', -1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
-		self.render("newest.html", items=items, pagination=pagination)
+		self.render("newest.html", items=items, pagination=pagination, user=self.get_current_user())
 
 
 class TopHandler(BaseHandler):
@@ -84,7 +84,7 @@ class TopHandler(BaseHandler):
 		count = j.count
 		items = j.coll.find().sort('rank',-1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
-		self.render("top.html", items=items, pagination=pagination)
+		self.render("top.html", items=items, pagination=pagination, user=self.get_current_user())
 
 
 class JokeHandler(BaseHandler):
@@ -103,7 +103,7 @@ class JokeHandler(BaseHandler):
 			tpl = 'joke_body.html'
 		else:
 			tpl = 'joke.html'
-		self.render(tpl, item=item, next_pk=next_pk)
+		self.render(tpl, item=item, next_pk=next_pk, user=self.get_current_user())
 
 class SearchHandler(BaseHandler):
 	def get(self, q, page=1):
@@ -162,8 +162,6 @@ class LoginHandler(BaseHandler):
 		print auth
 		if auth:
 			self.set_current_user(username)
-			#__import__('pdb').set_trace()
-
 			self.redirect(self.get_argument('next', '/'))
 		else:
 			error_msg = u'?error=' + tornado.escape.url_escape('login failed')
@@ -173,9 +171,7 @@ class LoginHandler(BaseHandler):
 		return username == 'admin' and password == "test"
 
 	def set_current_user(self, user):
-		print user
 		if user:
-			self.current_user = user
 			self.set_secure_cookie('user', tornado.escape.json_encode(user))
 		else:
 			self.clear_cookie('user')

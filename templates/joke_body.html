@@ -12,10 +12,12 @@
 			</p>
 		</article>
 		<div class="control-area">
+            {% if user %}
 			<div class="">
 				<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
 				<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
 			</div>
+            {% end %}
 			<div class="vote">
 				<a class="downvote btn btn-danger btn-xs">
 					<span class="glyphicon glyphicon-thumbs-down"></span>  
