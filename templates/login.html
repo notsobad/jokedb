@@ -4,12 +4,10 @@
 </script>
 <style>
 </style>
-<div class="row">
-	<div class="span9">
 		<div class="joke-add">
 			<form action="{{ reverse_url("login") }}" method="post" class="" style="display: block;">
 			<p>
-                U: <input type="text" name="username" value="">
+            U: <input type="text" name="username" value="">
 			P: <input type="password" name="password" value="">
 			</p>
 			<p class="version">
@@ -18,15 +16,5 @@
 		  </form>
             {{ error_message }}
 		</div>
-	</div>
-	<div class="span3">
-		<div class="well about-this">
-			<h3>这是什么？</h3>
-		  <p>致力于收集互联网上最大的中文笑话数据库</p>
-		  <p><a href="{{ reverse_url("about") }}">更多</a></p>
-		</div>
-	</div>
-
-</div>
 
 {% end %}

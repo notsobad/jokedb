@@ -23,7 +23,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class MainHandler(BaseHandler):
 	def get(self):
-		self.set_header('Cache-Control', 'max-age=%s' % (86400 * 30))
+		self.set_header('Cache-Control', 'max-age=3600')
 		self.render('index.html')
 
 class AddHandler(BaseHandler):
@@ -61,7 +61,7 @@ class EditHandler(BaseHandler):
 
 class AboutHandler(BaseHandler):
 	def get(self):
-		self.set_header('Cache-Control', 'max-age=%s' % (86400 * 30))
+		self.set_header('Cache-Control', 'max-age=3600')
 		self.render("about.html")
 
 class NewestHandler(BaseHandler):
@@ -73,7 +73,7 @@ class NewestHandler(BaseHandler):
 		items = j.coll.find().sort('_id', -1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
 		self.set_header('Cache-Control', 'max-age=600')
-		self.render("newest.html", items=items, pagination=pagination, user=self.get_current_user())
+		self.render("newest.html", items=items, pagination=pagination)
 
 
 class TopHandler(BaseHandler):
@@ -86,7 +86,7 @@ class TopHandler(BaseHandler):
 		items = j.coll.find().sort('rank',-1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
 		self.set_header('Cache-Control', 'max-age=600')
-		self.render("top.html", items=items, pagination=pagination, user=self.get_current_user())
+		self.render("top.html", items=items, pagination=pagination)
 
 
 class JokeHandler(BaseHandler):
@@ -106,7 +106,7 @@ class JokeHandler(BaseHandler):
 		else:
 			tpl = 'joke.html'
 		self.set_header('Cache-Control', 'max-age=3600')
-		self.render(tpl, item=item, next_pk=next_pk, user=self.get_current_user())
+		self.render(tpl, item=item, next_pk=next_pk)
 
 class SearchHandler(BaseHandler):
 	def get(self, q, page=1):

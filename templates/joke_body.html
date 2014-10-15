@@ -1,4 +1,5 @@
-	<div class="col-md-7">
+	<span style="display:none"><title>{{ item['cont'][:16] }}...</title> </span>
+    <div class="col-md-7">
 		<article class="cont">
 			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
 			<hr/>
@@ -12,7 +13,7 @@
 			</p>
 		</article>
 		<div class="control-area">
-            {% if user %}
+            {% if current_user %}
 			<div class="">
 				<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
 				<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
