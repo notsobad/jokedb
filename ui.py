@@ -23,8 +23,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class MainHandler(BaseHandler):
 	def get(self):
-		print self.current_user
-		#__import__('pdb').set_trace()
+		self.set_header('Cache-Control', 'max-age=%s' % (86400 * 30))
 		self.render('index.html')
 
 class AddHandler(BaseHandler):
@@ -62,6 +61,7 @@ class EditHandler(BaseHandler):
 
 class AboutHandler(BaseHandler):
 	def get(self):
+		self.set_header('Cache-Control', 'max-age=%s' % (86400 * 30))
 		self.render("about.html")
 
 class NewestHandler(BaseHandler):
@@ -72,6 +72,7 @@ class NewestHandler(BaseHandler):
 		count = j.count
 		items = j.coll.find().sort('_id', -1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
+		self.set_header('Cache-Control', 'max-age=600')
 		self.render("newest.html", items=items, pagination=pagination, user=self.get_current_user())
 
 
@@ -84,6 +85,7 @@ class TopHandler(BaseHandler):
 		count = j.count
 		items = j.coll.find().sort('rank',-1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
+		self.set_header('Cache-Control', 'max-age=600')
 		self.render("top.html", items=items, pagination=pagination, user=self.get_current_user())
 
 
@@ -103,6 +105,7 @@ class JokeHandler(BaseHandler):
 			tpl = 'joke_body.html'
 		else:
 			tpl = 'joke.html'
+		self.set_header('Cache-Control', 'max-age=3600')
 		self.render(tpl, item=item, next_pk=next_pk, user=self.get_current_user())
 
 class SearchHandler(BaseHandler):
@@ -119,6 +122,7 @@ class SearchHandler(BaseHandler):
 		count = docs.count()
 		items = docs.sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
+		self.set_header('Cache-Control', 'max-age=3600')
 		self.render("search.html", items=items, pagination=pagination, q=q)
 
 
@@ -134,6 +138,7 @@ class TagHandler(BaseHandler):
 		count = docs.count()
 		items = docs.sort('_id',1).skip( (page - 1) * per_page ).limit(per_page)
 		pagination = Pagination(page, per_page, count)
+		self.set_header('Cache-Control', 'max-age=3600')
 		self.render("tag.html", items=items, pagination=pagination, tag=tag)
 
 
@@ -153,13 +158,13 @@ class LoginHandler(BaseHandler):
 			error_message = self.get_argument('error')
 		except:
 			error_message = ''
+		self.set_header('Cache-Control', 'max-age=3600')
 		self.render('login.html', error_message=error_message)
 
 	def post(self):
 		username = self.get_argument('username', '')
 		password = self.get_argument('password', '')
 		auth = self.check_permission(username, password)
-		print auth
 		if auth:
 			self.set_current_user(username)
 			self.redirect(self.get_argument('next', '/'))
@@ -176,7 +181,7 @@ class LoginHandler(BaseHandler):
 		else:
 			self.clear_cookie('user')
 
-
+define("ip", default="0.0.0.0", help="ip to bind")
 define("port", default=9527, help="port to listen")
 define("debug", default=False, help="enable debug?")
 tornado.options.parse_command_line()
