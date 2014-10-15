@@ -50,8 +50,8 @@ class VoteHandler(tornado.web.RequestHandler):
 			up = 1
 		else:
 			down = 1
-		j.vote(pk, up=up, down=down)
-		self.write({'status':'ok'})
+		ver = j.vote(pk, up=up, down=down)
+		self.write({'status':'ok', 'ver':ver})
 
 class WeixinMsgHandler(tornado.web.RequestHandler):
 	def post(self):

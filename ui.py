@@ -55,9 +55,8 @@ class EditHandler(BaseHandler):
 	def post(self, pk):
 		j = Joke()
 		cont = self.get_argument('cont', '').strip().encode('utf-8')
-		j.update(cont=cont, pk=pk)
-		
-		self.redirect(self.reverse_url("joke", pk))
+		joke = j.update(cont=cont, pk=pk)
+		self.redirect(self.reverse_url("joke", pk) + '?' + joke['ver'])
 
 class AboutHandler(BaseHandler):
 	def get(self):

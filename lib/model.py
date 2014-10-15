@@ -22,7 +22,14 @@ class Joke:
 	def get(self, pk):
 		_id = self.get_id(pk)
 		return self.coll.find_one({'_id':_id})
-	
+
+	def get_ver(self, key=None):
+		if not key:
+			key = str(datetime.datetime.now())
+		m = hashlib.md5()
+		m.update(key)
+		return m.hexdigest()[:3]
+
 	def find(self, q):
 		return self.coll.find(q).limit(10)
 	
@@ -44,7 +51,9 @@ class Joke:
 		item['up'] += up
 		item['down'] += down
 		item['rank'] = rank.hot(item['up'], item['down'], item['created'])
-		return self.coll.save(item)
+		item['ver'] = self.get_ver()
+		self.coll.save(item)
+		return item['ver']
 
 	def delete(self, pk):
 		_id = self.get_id(pk)
@@ -65,8 +74,10 @@ class Joke:
 			'cont' : cont,
 			'md5' : self._md5(cont),
 			'tags' : self.gen_tags(cont),
+			'ver' : self.get_ver(),
 		}
 		self.coll.update({'_id': _id}, {'$set': obj})
+		return obj
 
 	def add(self, **kwargs):
 		cont = kwargs.get('cont', '')
@@ -84,7 +95,8 @@ class Joke:
 			'r' : random.random(),
 			'source' : 'ishuoxiao',
 			'tags' : self.gen_tags(cont),
-			'created' : datetime.datetime.now()
+			'created' : datetime.datetime.now(),
+			'ver' : self.get_ver(),
 		}
 		#_item = self.coll.update({'md5': md5}, {'$set': item}, upsert=True)
 		_id = self.coll.save(item)

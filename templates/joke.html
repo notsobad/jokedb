@@ -8,7 +8,7 @@ var api_vote = '{{ reverse_url("api-vote") }}';
 $(function(){
 	var pk = '';
 	var init = function(){
-		pk = location.href.replace(/.*\/joke\/([^\/]+)\//g, "$1");
+		pk = location.href.replace(/.*\/joke\/([^\/]+)\/.*/g, "$1");
 		$.cookie('pk', pk, {expires:365, path:'/'});
 	};
 	init();
@@ -20,8 +20,9 @@ $(function(){
 		var act = $(this).hasClass('upvote') ? 'up' : 'down';
 		$('.vote a').addClass('disabled');
 
-		$.post(api_vote, {'act':act, 'pk':pk}, function(){
-			location.reload();
+		$.post(api_vote, {'act':act, 'pk':pk}, function(d){
+		    location.href = location.pathname + '?' + d.ver;
+			//location.reload();
 		});
 	});
 	$(document).pjax('a[data-pjax]', '#pjax-container');
