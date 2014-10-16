@@ -10,7 +10,7 @@ body > .container{background-color:white;}
 .pagination{background-color:white;}
 .hero-unit p{line-height:50px;}
 
-.nav{ margin: 20px 0 0 150px; padding: 0; font-size: 15px;list-style: none; float:right;}
+.nav{ margin-top:20px;padding: 0; font-size: 15px;list-style: none; float:right;}
 .nav li:before      { display: none; }
 .nav li             { float: left; padding: 0; margin: 0 32px 8px 0; }
 .nav li a           { padding: 4px 8px; display: block; text-decoration: none; color:#ffffff;}
@@ -20,7 +20,7 @@ body > .container{background-color:white;}
 
 .joke-item{padding-bottom:15px;}
 .joke-item .opt-area {display:none}
-.joke-info{background-color: #f4f8fa; border-left: 3px solid #5bc0de; color:gray;}
+.joke-info{background-color: #f4f8fa; border-left: 3px solid #5bc0de; color:gray;table-layout:fixed; width:100%;word-wrap:break-word;}
 .navgate{text-align:center;margin:20px;}
 
 .tag:link, .tag:visited {
@@ -40,9 +40,14 @@ a:link, a:visited, a:active {
 text-decoration: none;
 }
 .tag .glyphicon-tag{color:rgb(223, 223, 223)}
-.top-nav {background-color:#3a3f41;color:white;margin-bottom:10px;height:72px;}
+.top-nav {background-color:#3a3f41;color:white;margin-bottom:10px;}
 .main-body{padding-top:10px;}
 .top-nav h1{float:left;margin-top:10px;}
 .top-nav h1 a{color:#fff;}
 .footer{margin:20px 0 10px 0;}
 .footer .container p{text-align:center;}
+
+@media screen and (max-width:700px) {
+	.nav {margin:5px 0 0 0;}
+	.nav li{margin-right:12px;}
+}

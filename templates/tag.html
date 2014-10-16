@@ -10,11 +10,11 @@
 <div class="row">
 	<div class="col-md-7">
 		{% include "widget/items.html" %}
+		{% module Template("widget/pagination.html", pagination=pagination, url_name="tag", arg1=tag) %}
 	</div>
 	<div class="col-md-5">
 		{% comment include "widget/about_box.html" %}
 		{% include "widget/search_box.html" %}
 	</div>
 </div><!--EOF row-->
-{% module Template("widget/pagination.html", pagination=pagination, url_name="tag", arg1=tag) %}
 {% end %}
