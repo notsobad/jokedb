@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 		'bower_components/jquery-pjax/jquery.pjax.js',
 		'bower_components/bootstrap/dist/js/bootstrap.js',
 		'bower_components/underscore/underscore.js',
+		'bower_components/wordcloud2.js/src/wordcloud2.js',
 		];
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),

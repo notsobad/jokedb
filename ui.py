@@ -7,6 +7,7 @@ import urlparse
 import random
 import hashlib
 import re
+import json
 from bson.objectid import ObjectId
 import tornado.ioloop
 import tornado.web
@@ -16,6 +17,8 @@ from tornado.options import define, options
 from lib.model import Joke
 from lib.pagination import Pagination
 from api import urls_map
+
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 class BaseHandler(tornado.web.RequestHandler):
 	def get_current_user(self):
@@ -180,6 +183,13 @@ class LoginHandler(BaseHandler):
 		else:
 			self.clear_cookie('user')
 
+class TagsHandler(BaseHandler):
+	def get(self):
+		self.set_header('Cache-Control', 'max-age=3600')
+		cont = open('%s/static/tags.json' % BASE_DIR).read()
+		tags = json.loads(cont)
+		self.render("tags.html", tags=tags)
+
 define("ip", default="0.0.0.0", help="ip to bind")
 define("port", default=9527, help="port to listen")
 define("debug", default=False, help="enable debug?")
@@ -204,6 +214,7 @@ app = tornado.web.Application([
 	tornado.web.url(r'/search/([^/]+)/(\d*)/', SearchHandler, name="search"),
 	tornado.web.url(r'/tag/([^/]+)/(\d*)/', TagHandler, name="tag"),
 	tornado.web.url(r'/login/', LoginHandler, name='login'),
+	tornado.web.url(r'/tags/', TagsHandler, name="tags"),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
 ] + urls_map, **settings)
 
