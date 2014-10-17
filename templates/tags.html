@@ -20,7 +20,7 @@ $(function(){
 <ul class="all-tags">
 {% for tag in tags %}
 	<li>
-	<a href="{{ reverse_url('tag', tag, 1) }}">
+	<a href="{{ reverse_url('tag', tag, 1) }}" style="font-size:{{ (tags[tag] - _min) / _slice + 1 }}em">
 		{{ tag }}<b>({{ tags[tag] }})</b>
 	</a>
 {% end %}

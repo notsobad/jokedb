@@ -172,7 +172,7 @@ class LoginHandler(BaseHandler):
 			self.redirect(self.get_argument('next', '/'))
 		else:
 			error_msg = u'?error=' + tornado.escape.url_escape('login failed')
-			self.redirect(u'/login'+error_msg)
+			self.redirect(u'/login/'+error_msg)
 
 	def check_permission(self, username, password):
 		return username == 'admin' and password == "test"
@@ -183,12 +183,21 @@ class LoginHandler(BaseHandler):
 		else:
 			self.clear_cookie('user')
 
+class LogoutHandler(BaseHandler):
+	def get(self):
+		self.clear_cookie('user')
+		self.redirect(u'/login/')
+
 class TagsHandler(BaseHandler):
 	def get(self):
 		self.set_header('Cache-Control', 'max-age=3600')
 		cont = open('%s/static/tags.json' % BASE_DIR).read()
 		tags = json.loads(cont)
-		self.render("tags.html", tags=tags)
+		vals = tags.values()
+		_max = max(vals)
+		_min = min(vals)
+		_slice = (_max- _min) / 5.0
+		self.render("tags.html", tags=tags, _min=_min, _slice=_slice)
 
 define("ip", default="0.0.0.0", help="ip to bind")
 define("port", default=9527, help="port to listen")
@@ -214,6 +223,7 @@ app = tornado.web.Application([
 	tornado.web.url(r'/search/([^/]+)/(\d*)/', SearchHandler, name="search"),
 	tornado.web.url(r'/tag/([^/]+)/(\d*)/', TagHandler, name="tag"),
 	tornado.web.url(r'/login/', LoginHandler, name='login'),
+	tornado.web.url(r'/logout/', LogoutHandler, name='logout'),
 	tornado.web.url(r'/tags/', TagsHandler, name="tags"),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
 ] + urls_map, **settings)
