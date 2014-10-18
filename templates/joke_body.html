@@ -14,11 +14,25 @@
 		</article>
 		<div class="control-area">
             {% if current_user %}
-			<div class="">
+			<div class="" style="margin-bottom:5px;">
 				<i><a class="btn btn-danger btn-xs" href="{{ reverse_url('delete', item['_id']) }}">Del</a></i>
 				<i><a class="btn btn-info btn-xs" href="{{ reverse_url('edit', item['_id']) }}">Edit</a></i>
 			</div>
             {% end %}
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style" style="height:20px;">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_xiaoyou"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1393943899844295" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
 			<div class="vote">
 				<a class="downvote btn btn-danger btn-xs">
 					<span class="glyphicon glyphicon-thumbs-down"></span>  
@@ -30,7 +44,6 @@
 				</a>
 			</div>
 		</div>
-		<hr/>
 		<div class="navgate">
 			<!--
 			<a data-pjax class="downvote btn btn-default btn-sm" href="{{ reverse_url('joke', next_pk) }}">

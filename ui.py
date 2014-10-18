@@ -151,7 +151,6 @@ class RandomHandler(BaseHandler):
 		item = j.coll.find_one({'r':{'$gte':r}})
 		if not item:
 			item = j.coll.find_one({'r':{'$lte':r}})
-		print item
 		self.set_header('Cache-Control', 'no-cache')
 		self.redirect( self.reverse_url('joke', str(item['_id'])) )
 
