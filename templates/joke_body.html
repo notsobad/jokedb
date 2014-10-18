@@ -1,7 +1,7 @@
 	<span style="display:none"><title>{{ item['cont'][:16] }}...</title> </span>
     <div class="col-md-7">
 		<article class="cont">
-			<p class="">{{ item['cont'].replace('\n', '<br/>') }}</p>
+			<p class="">{% raw item['cont'].replace('\r', '').replace('\n', '<br/>') %}</p>
 			<hr/>
 			<p class="tags">
 			{% for tag in item.get('tags', []) %}
@@ -37,13 +37,31 @@
 				<span class="glyphicon glyphicon-chevron-left"></span>  
 				上一条
 			</a>-->
-			<a data-pjax class="btn btn-default btn-sm" href="{{ reverse_url('random_page') }}">
+			<a class="btn btn-default btn-sm" href="{{ reverse_url('random_page') }}?{{ item['_id'] }}">
 			  <span class="glyphicon glyphicon-random"></span>  随便看看
 			</a>
 			<a data-pjax class="upvote btn btn-default btn-sm" href="{{ reverse_url('joke', next_pk) }}">
 				下一条
 				<span class="glyphicon glyphicon-chevron-right"></span>  
 			</a>
+		</div>
+		<div class="comment">
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS" sid="{{ item['_id'] }}"></div>
+<script>
+  (function(){
+    var appid = 'cyrqE1IRq',
+    conf = 'prod_2955b67c24a65f95cb85c7c1f399ff64';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>                
 		</div>
 
 	</div>
