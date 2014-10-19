@@ -42,6 +42,8 @@ text-decoration: none;
 .tag .glyphicon-tag{color:rgb(223, 223, 223)}
 .top-nav {background-color:#3a3f41;color:white;margin-bottom:10px;}
 .main-body{padding-top:15px;border-radius:4px;}
+.main-body .jumbotron{min-height:450px;}
+#pjax-container{min-height:600px;}
 .top-nav h1{float:left;margin-top:10px;}
 .top-nav h1 a{color:#fff;}
 .footer{margin:20px 0 10px 0;}
