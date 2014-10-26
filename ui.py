@@ -17,6 +17,7 @@ from tornado.options import define, options
 from lib.model import Joke
 from lib.pagination import Pagination
 from api import urls_map
+import settings
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -175,7 +176,7 @@ class LoginHandler(BaseHandler):
 			self.redirect(u'/login/'+error_msg)
 
 	def check_permission(self, username, password):
-		return username == 'admin' and password == "test"
+		return (username, password) == settings.AUTH
 
 	def set_current_user(self, user):
 		if user:
@@ -203,7 +204,7 @@ define("ip", default="0.0.0.0", help="ip to bind")
 define("port", default=9527, help="port to listen")
 define("debug", default=False, help="enable debug?")
 tornado.options.parse_command_line()
-settings = {
+confs = {
 	'template_path' : os.path.join(os.path.dirname(__file__), 'templates'),
 	'debug' : options.debug,
 	'login_url' : '/login/',
@@ -226,7 +227,7 @@ app = tornado.web.Application([
 	tornado.web.url(r'/logout/', LogoutHandler, name='logout'),
 	tornado.web.url(r'/tags/', TagsHandler, name="tags"),
 	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': 'static'}),
-] + urls_map, **settings)
+] + urls_map, **confs)
 
 if __name__ == '__main__':
 	app.listen(options.port)
