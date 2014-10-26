@@ -13,6 +13,8 @@
 		{% module Template("widget/pagination.html", pagination=pagination, url_name="newest", arg1="") %}
 	</div>
 	<div class="col-md-5">
+		{% include "widget/weixin.html" %}
+		<hr>
 		{% include "widget/search_box.html" %}
 	</div>
 </div><!--EOF row-->

@@ -17,6 +17,7 @@ import tornado.web
 import tornado
 import tornado.httpclient
 from tornado.options import define, options
+import settings
 
 WEIXIN_MSG_TPL = '''<xml>
 <ToUserName><![CDATA[%(ToUserName)s]]></ToUserName>
@@ -24,7 +25,6 @@ WEIXIN_MSG_TPL = '''<xml>
 <CreateTime>%(CreateTime)s</CreateTime>
 <MsgType><![CDATA[text]]></MsgType>
 <Content><![CDATA[%(Content)s]]></Content>
-<FuncFlag>%(FuncFlag)s</FuncFlag>
 </xml>'''
 
 class APIJokeHandler(tornado.web.RequestHandler):
@@ -54,6 +54,18 @@ class VoteHandler(tornado.web.RequestHandler):
 		self.write({'status':'ok', 'ver':ver})
 
 class WeixinMsgHandler(tornado.web.RequestHandler):
+	
+	def get(self):
+		arr = sorted([settings.WEIXIN_TOKEN, self.get_argument('timestamp', ''), self.get_argument('nonce', '')])
+		m = hashlib.sha1()
+		m.update(''.join(arr))
+		sign = m.hexdigest()
+		#__import__('pdb').set_trace()
+		if sign == self.get_argument('signature', ''):
+			self.write(self.get_argument('echostr', ''))
+		else:
+			self.send_error(403)
+
 	def post(self):
 		'''Got msg from weixin
 		'''
@@ -75,12 +87,11 @@ class WeixinMsgHandler(tornado.web.RequestHandler):
 			'FromUserName' : obj['ToUserName'],
 			'CreateTime' : int(time.time()),
 			'Content' : cont,
-			'FuncFlag' : 0
 		}
 		self.write(WEIXIN_MSG_TPL % ret)
 
 urls_map = [
 	tornado.web.url(r'/api/joke/([^/]+)/', APIJokeHandler, name="api-joke"),
 	tornado.web.url(r'/api/vote/', VoteHandler, name="api-vote"),
-	tornado.web.url(r'/api/weixin/msg/', WeixinMsgHandler, name="api-weixin-msg"),
+	tornado.web.url(r'/api/weixin/', WeixinMsgHandler, name="api-weixin"),
 ]

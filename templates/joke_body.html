@@ -109,6 +109,9 @@
 					<td><a href="{{ reverse_url('joke', item['_id']) }}">{{ reverse_url('joke', item['_id']) }}</a></td>
 				</tr>
 		</table>
+		<hr/>
 		{% comment include "widget/about_box.html" %}
+		{% include "widget/weixin.html" %}
+		<hr/>
 		{% include "widget/search_box.html" %}
 	</div>
