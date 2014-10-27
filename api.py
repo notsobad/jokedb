@@ -74,14 +74,20 @@ class WeixinMsgHandler(tornado.web.RequestHandler):
 		for item in tree.getchildren():
 			obj[item.tag] = item.text
 
-		tag = obj['Content']
-		j = Joke()
-		item = j.random(keyword=obj['Content'])
-		cont = ""
-		if item:
-			cont = item['cont']
+		cmd = obj['Content']
+		cont = ''
+		if cmd in ('h', 'help'):
+			cont = (u"输入h、help现实本帮助\n"
+			u"输入关键词,如“老师”、“老板”、“教室”等，就会返回对应的笑话。\n"
+			u"Have fun!")
 		else:
-			cont = u'奇怪，居然没找到...'
+			j = Joke()
+			item = j.random(keyword=obj['Content'])
+			cont = ""
+			if item:
+				cont = item['cont']
+			else:
+				cont = u'奇怪，居然没找到...'
 		ret = {
 			'ToUserName' : obj['FromUserName'],
 			'FromUserName' : obj['ToUserName'],
