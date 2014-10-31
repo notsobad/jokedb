@@ -98,6 +98,8 @@ class JokeHandler(BaseHandler):
 		j = Joke()
 		items = j.coll.find({'_id':{'$gte':_id}}).sort('_id',1).limit(2)
 		item = items[0]
+		if item['_id'] != _id:
+			return self.send_error(404)
 
 		try:
 			next_pk = items[1]['_id']
