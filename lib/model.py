@@ -102,9 +102,12 @@ class Joke:
 		_id = self.coll.save(item)
 		return str(_id)
 
-	def random(self, keyword=''):
+	def random(self, keyword='', exclude=None):
 		r = random.random()
 		query = {'r':{'$gte':r}}
+		if exclude:
+			query['_id'] = {'$nin' : [ObjectId(_id) for _id in exclude]}
+
 		if keyword:	
 			query['tags'] = keyword
 
@@ -112,7 +115,6 @@ class Joke:
 		if not item:
 			query['r'] = {'$lte':r}
 			item = self.coll.find_one(query)
-		
 		return item
 
 	@property
