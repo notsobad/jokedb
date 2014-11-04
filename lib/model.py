@@ -79,7 +79,7 @@ class Joke:
 		self.coll.update({'_id': _id}, {'$set': obj})
 		return obj
 
-	def add(self, **kwargs):
+	def add(self, md5_check=False, **kwargs):
 		cont = kwargs.get('cont', '')
 		pk = kwargs.get('pk', '')
 		if not cont:
@@ -98,7 +98,9 @@ class Joke:
 			'created' : datetime.datetime.now(),
 			'ver' : self.get_ver(),
 		}
-		#_item = self.coll.update({'md5': md5}, {'$set': item}, upsert=True)
+		if md5_check:
+			return self.coll.update({'md5': md5}, {'$set': item}, upsert=True)
+
 		_id = self.coll.save(item)
 		return str(_id)
 
