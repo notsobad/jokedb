@@ -1,2 +1,2 @@
-pushd /vagrant
-python ui.py --debug --port=8080
+pushd /
+python -m vagrant.ui --debug --port=8080
